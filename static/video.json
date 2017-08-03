@@ -1,0 +1,26 @@
+[
+  {
+  "id": 1,
+  "name": "泰勒.斯威夫特MV视频",
+  "url":"static/video/01/LongLive.mp4",
+  "imgUrl":"static/video/01/LongLive.png"
+  },
+  {
+  "id": 2,
+  "name": "一个人在讲话",
+  "url":"static/video/02/02.mp4",
+  "imgUrl":"static/video/02/02.png"
+  },
+  {
+  "id": 3,
+  "name": "一个人在讲话(二)",
+  "url":"static/video/03/03.mp4",
+  "imgUrl":"static/video/03/03.png"
+  },
+  {
+  "id": 3,
+  "name": "一个人在讲话(三)",
+  "url":"static/video/04/04.mp4",
+  "imgUrl":"static/video/04/04.png"
+  }
+]
