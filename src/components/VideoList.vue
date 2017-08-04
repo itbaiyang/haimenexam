@@ -9,8 +9,8 @@
       <div class="video">
         <el-row :gutter="20">
           <el-col v-for="item of videoList" :key="item.id" :xs="24" :sm="24" :md="12" :lg="12" class="video-ctrl">
-            <router-link :to="{name:'Video', params:{id: item.url}}">
-              <img v-bind:src="pathname + item.imgUrl" class="video-img" />
+            <router-link :to="{name:'Video', params:{id: item.id}}">
+              <img v-bind:src="item.imgUrl" class="video-img" />
               <span class="img-cover-layer"></span>
               <i class="icon-play"></i>
               <p class="link">{{ item.name }}</p>
@@ -28,8 +28,7 @@ export default {
   name: 'VideoList',
   data () {
     return {
-      videoList: [],
-      pathname: this.$baseUrl
+      videoList: []
     }
   },
   mounted () {
@@ -53,6 +52,7 @@ export default {
   width: 100%;
   height: 100%;
   background-color: #f2f2f2;
+  overflow: auto;
 }
 
 .exam-header {

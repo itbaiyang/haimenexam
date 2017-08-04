@@ -14,7 +14,7 @@ export default {
   name: 'Video',
   data () {
     return {
-      url: decodeURI(this.$route.params.id),
+      url: 'http://zs.zrodo.com/haimenexam/video/' + this.$route.params.id + '/' + this.$route.params.id + '.mp4',
       pathname: window.location.pathname
     }
   },

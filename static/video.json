@@ -1,26 +1,57 @@
 [
   {
   "id": 1,
-  "name": "泰勒.斯威夫特MV视频",
-  "url":"static/video/01/LongLive.mp4",
-  "imgUrl":"static/video/01/LongLive.png"
+  "name": "海门食安讲座一",
+  "url": "http://zs.zrodo.com/haimenexam/video/1/1.mp4",
+  "imgUrl": "http://zs.zrodo.com/haimenexam/video/1/1.png"
   },
   {
   "id": 2,
-  "name": "一个人在讲话",
-  "url":"static/video/02/02.mp4",
-  "imgUrl":"static/video/02/02.png"
+  "name": "海门食安讲座二",
+  "url": "http://zs.zrodo.com/haimenexam/video/2/2.mp4",
+  "imgUrl": "http://zs.zrodo.com/haimenexam/video/2/2.png"
   },
   {
   "id": 3,
-  "name": "一个人在讲话(二)",
-  "url":"static/video/03/03.mp4",
-  "imgUrl":"static/video/03/03.png"
+  "name": "海门食安讲座三",
+  "url": "http://zs.zrodo.com/haimenexam/video/3/3.mp4",
+  "imgUrl": "http://zs.zrodo.com/haimenexam/video/3/3.png"
   },
   {
-  "id": 3,
-  "name": "一个人在讲话(三)",
-  "url":"static/video/04/04.mp4",
-  "imgUrl":"static/video/04/04.png"
+  "id": 4,
+  "name": "海门食安讲座四",
+  "url": "http://zs.zrodo.com/haimenexam/video/4/4.mp4",
+  "imgUrl": "http://zs.zrodo.com/haimenexam/video/4/4.png"
+  },
+  {
+  "id": 5,
+  "name": "海门食安讲座五",
+  "url": "http://zs.zrodo.com/haimenexam/video/5/5.mp4",
+  "imgUrl": "http://zs.zrodo.com/haimenexam/video/5/5.png"
+  },
+  {
+  "id": 6,
+  "name": "海门食安讲座六",
+  "url": "http://zs.zrodo.com/haimenexam/video/6/6.mp4",
+  "imgUrl": "http://zs.zrodo.com/haimenexam/video/6/6.png"
+  },
+  {
+  "id": 7,
+  "name": "海门食安讲座七",
+  "url": "http://zs.zrodo.com/haimenexam/video/7/7.mp4",
+  "imgUrl": "http://zs.zrodo.com/haimenexam/video/7/7.png"
+  },
+  {
+  "id": 8,
+  "name": "海门食安讲座八",
+  "url": "http://zs.zrodo.com/haimenexam/video/8/8.mp4",
+  "imgUrl": "http://zs.zrodo.com/haimenexam/video/8/8.png"
+  },
+  {
+  "id": 9,
+  "name": "海门食安讲座九",
+  "url": "http://zs.zrodo.com/haimenexam/video/9/9.mp4",
+  "imgUrl": "http://zs.zrodo.com/haimenexam/video/9/9.png"
   }
+
 ]

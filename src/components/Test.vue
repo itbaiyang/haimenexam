@@ -9,41 +9,63 @@
         <span v-if="type == 0">单择题</span>
         <span v-if="type == 2">多选题</span>
       </div>
-      <div class="exam-content">
-        <div class="exam-title">
-          <span>{{ count + 1 }}/{{ page.totalCount }}</span>
-          <span>{{ examItem.content }}</span>
+      <div v-if="page.totalCount">
+        <div class="exam-content">
+          <div class="exam-title">
+            <span>{{ count + 1 }}/{{ page.totalCount }}</span>
+            <span>{{ examItem.content }}</span>
+          </div>
+          <div class="exam-answer" v-if="examItem.quesType != 2" v-on:click.stop="checkAnswer($event)">
+            <P v-bind:class="{ 'answer-right': isRight == 'A', 'answer-wrong': isWrong == 'A' }">
+              <input type="radio" id="radio1" value="A" v-model="radio" :disabled="radio != null">
+              <label for="radio1">{{ examItem.optionA }}</label>
+            </P>
+            <P v-bind:class="{ 'answer-right': isRight == 'B', 'answer-wrong': isWrong == 'B' }">
+              <input type="radio" id="radio2" value="B" v-model="radio" :disabled="radio != null">
+              <label for="radio2">{{ examItem.optionB }}</label>
+            </P>
+            <P v-if="type == 0" v-bind:class="{ 'answer-right': isRight == 'C', 'answer-wrong': isWrong == 'C' }">
+              <input type="radio" id="radio3" value="C" v-model="radio" :disabled="radio != null">
+              <label for="radio3">{{ examItem.optionC }}</label>
+            </P>
+            <P v-if="type == 0"  v-bind:class="{ 'answer-right': isRight == 'D', 'answer-wrong': isWrong == 'D' }">
+              <input type="radio" id="radio4" value="D" v-model="radio" :disabled="radio != null">
+              <label for="radio4">{{ examItem.optionD }}</label>
+            </P>
+            <div>
+              <span v-if="radio == examItem.rightAnswer" style="color: #0f0">回答正确！</span>
+              <span v-if="radio && radio != examItem.rightAnswer" style="color: #f00">回答错误！</span>
+              <span v-if="radio && radio != examItem.rightAnswer">正确答案：
+                <i style="font-size:18px;font-weight: bold;color: #33a2f7;">{{ examItem.rightAnswer }}</i></span>
+            </div>
+          </div>
+          <div class="exam-answer" v-if="examItem.quesType == 2">
+            <!-- <el-radio class="radio" v-model="radio" label="A">{{ examItem.optionA }}</el-radio>
+            <el-radio class="radio" v-model="radio" label="B">{{ examItem.optionB }}</el-radio>
+            <el-radio v-if="type == 0" class="radio" v-model="radio" label="C">{{ examItem.optionC }}</el-radio>
+            <el-radio v-if="type == 0" class="radio" v-model="radio" label="D">{{ examItem.optionD }}</el-radio> -->
+            <el-checkbox-group v-model="checkList">
+              <el-checkbox label="A">{{ examItem.optionA }}</el-checkbox>
+              <el-checkbox label="B">{{ examItem.optionB }}</el-checkbox>
+              <el-checkbox label="C">{{ examItem.optionC }}</el-checkbox>
+              <el-checkbox label="D">{{ examItem.optionD }}</el-checkbox>
+              <el-checkbox label="E" v-show="examItem.optionE">{{ examItem.optionE }}</el-checkbox>
+            </el-checkbox-group>
+          </div>
         </div>
-        <div class="exam-answer" v-if="examItem.quesType != 2" v-on:click.stop="checkAnswer($event)">
-          <el-radio class="radio" v-model="radio" label="A">{{ examItem.optionA }}</el-radio>
-          <el-radio class="radio" v-model="radio" label="B">{{ examItem.optionB }}</el-radio>
-          <el-radio v-if="type == 0" class="radio" v-model="radio" label="C">{{ examItem.optionC }}</el-radio>
-          <el-radio v-if="type == 0" class="radio" v-model="radio" label="D">{{ examItem.optionD }}</el-radio>
+        <div class="exam-btn">
+          <el-button type="primary" style="margin-right: 20px;" :disabled="count == 0" v-on:click="getExamItem(-1)">上一页</el-button>
+          <el-button type="primary" v-if="count+1 != page.totalCount" v-on:click="getExamItem(1)">下一页</el-button>
+          <el-button type="primary" v-if="count+1 == page.totalCount" v-on:click="getExamResult()">查看结果</el-button>
         </div>
-        <div class="exam-answer" v-if="examItem.quesType == 2">
-          <!-- <el-radio class="radio" v-model="radio" label="A">{{ examItem.optionA }}</el-radio>
-          <el-radio class="radio" v-model="radio" label="B">{{ examItem.optionB }}</el-radio>
-          <el-radio v-if="type == 0" class="radio" v-model="radio" label="C">{{ examItem.optionC }}</el-radio>
-          <el-radio v-if="type == 0" class="radio" v-model="radio" label="D">{{ examItem.optionD }}</el-radio> -->
-          <el-checkbox-group v-model="checkList">
-            <el-checkbox label="A">{{ examItem.optionA }}</el-checkbox>
-            <el-checkbox label="B">{{ examItem.optionB }}</el-checkbox>
-            <el-checkbox label="C">{{ examItem.optionC }}</el-checkbox>
-            <el-checkbox label="D">{{ examItem.optionD }}</el-checkbox>
-            <el-checkbox label="E" v-show="examItem.optionE">{{ examItem.optionE }}</el-checkbox>
-          </el-checkbox-group>
+        <div class="exam-check">
+          <el-checkbox v-model="auto">答对自动下一题</el-checkbox>
+          <span>答对：{{ right }}</span>
+          <span>答错：{{ error }}</span>
+          <span>正确率 {{ (right*100 / page.totalCount).toFixed(2) }}%</span>
         </div>
       </div>
-      <div class="exam-btn">
-        <el-button type="primary" style="margin-right: 20px;" v-on:click="getExamItem(-1)">上一页</el-button>
-        <el-button type="primary" v-on:click="getExamItem(1)">下一页</el-button>
-      </div>
-      <div class="exam-check">
-        <el-checkbox v-model="auto">答对自动下一题</el-checkbox>
-        <span>答对：{{ right }}</span>
-        <span>答错：{{ error }}</span>
-        <span>正确率 {{ (right*100 / page.totalCount).toFixed(2) }}%</span>
-      </div>
+      <div v-if="!page.totalCount" style="text-align: center">暂时没有题目！！</div>
     </div>
   </div>
 </template>
@@ -63,7 +85,9 @@ export default {
       right: 0,
       error: 0,
       auto: false,
-      checkList: []
+      checkList: [],
+      isRight: '',
+      isWrong: ''
     }
   },
   mounted () {
@@ -80,6 +104,7 @@ export default {
       }
       this.$ajax.get('exam/quesList', {params: mParams}).then(function (resp) {
         if (resp.data.respCode === '1000000') {
+          console.log(resp.data)
           self.page = resp.data.page
           self.getExamItem(0)
         }
@@ -87,45 +112,52 @@ export default {
       })
     },
     getExamItem (num) {
-      if (this.examItem.quesType === '2') {
-        this.checkList.sort()
-        this.radio = ''
-        for (let i = 0; i < this.checkList.length; i++) {
-          this.radio += this.checkList[i]
-        }
-      }
-      if ((this.count + num) < 0) {
-        alert('现在是第一题')
-      } else if ((this.count + num + 1) > this.page.totalCount) {
-        if (this.radio === this.examItem.rightAnswer) {
-          this.right++
-        } else {
-          this.error++
-        }
-        alert('答题结束，正确率：' + this.right * 100 / this.page.totalCount + '%')
-      } else {
-        if (this.radio === this.examItem.rightAnswer) {
-          this.right++
-        } else {
-          this.error++
-        }
-        this.radio = null
-        this.checkList = []
-        this.count = this.count + num
-        this.examItem = this.page.rows[this.count]
-      }
+      this.radio = null
+      this.checkList = []
+      this.isRight = ''
+      this.isWrong = ''
+      this.count = this.count + num
+      this.examItem = this.page.rows[this.count]
+    },
+    getExamResult () {
+      alert('结束了')
     },
     checkAnswer (event) {
+      const self = this
       let ev = ev || window.event
       let target = ev.target || ev.srcElement
       if (target.nodeName.toLowerCase() === 'input') {
-        if (this.auto === true) {
-          if (this.radio === this.examItem.rightAnswer) {
-            this.getExamItem(1)
-          } else {
-            console.log('错了')
+        if (this.radio === this.examItem.rightAnswer) {
+          this.right++
+          this.isRight = this.radio
+          if (this.auto === true) {
+            window.setTimeout(function () {
+              self.getExamItem(1)
+            }, 600)
           }
+        } else {
+          this.error++
+          this.isRight = this.examItem.rightAnswer
+          this.isWrong = this.radio
         }
+      }
+    },
+    checkAnswers () {
+      this.checkList.sort()
+      this.radio = ''
+      for (let i = 0; i < this.checkList.length; i++) {
+        this.radio += this.checkList[i]
+      }
+      if (this.radio === this.examItem.rightAnswer) {
+        this.right++
+        this.isRight = this.radio
+        if (this.auto === true) {
+          this.getExamItem(1)
+        }
+      } else {
+        this.error++
+        this.isRight = this.examItem.rightAnswer
+        this.isWrong = this.radio
       }
     }
   }
@@ -191,7 +223,32 @@ export default {
   line-height: 60px;
   padding-left: 15%;
 }
-
+input[type="radio"] {
+  opacity: 0;
+  position: relative;
+  left: 18px;
+  top: 2px;
+  cursor: pointer;
+}
+p>label {
+  margin-right: 15px;
+  cursor: pointer;
+  background: url(../assets/normal_img.png)no-repeat left;
+  background-size: 14px 14px;
+  padding-left: 20px;
+}
+.answer-right {
+  color: #20a0ff;
+}
+.answer-right label{
+  background-image: url('../assets/right_img.png');
+}
+.answer-wrong {
+  color: #f00;
+}
+.answer-wrong label {
+   background-image: url('../assets/wrong_img.png');
+}
 @media screen and (max-width:700px){
   .exam-container {
    left: 0; 
@@ -218,5 +275,6 @@ export default {
   padding-left: 0;
   text-align: center;
 }
+
 }
 </style>
