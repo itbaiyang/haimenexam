@@ -182,9 +182,10 @@ export default {
 .exam-title{
   color: #4c4c4c;
   line-height: 40px;
+  font-size: 20px;
 }
 .exam-answer {
-
+ font-size: 18px;
 }
 .exam-btn {
   padding-top: 50px;

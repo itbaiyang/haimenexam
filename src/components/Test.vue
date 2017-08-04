@@ -40,7 +40,7 @@
             </div>
           </div>
           <div class="exam-answer" v-if="examItem.quesType == 2">
-            <el-checkbox-group v-model="checkList">
+            <el-checkbox-group v-model="checkList" size="large">
               <el-checkbox label="A" :disabled="radio != null">{{ examItem.optionA }}</el-checkbox><br/>
               <el-checkbox label="B" :disabled="radio != null">{{ examItem.optionB }}</el-checkbox><br/>
               <el-checkbox label="C" :disabled="radio != null">{{ examItem.optionC }}</el-checkbox><br/>
@@ -219,9 +219,10 @@ export default {
 .exam-title{
   color: #4c4c4c;
   line-height: 40px;
+  font-size: 20px;
 }
-.exam-answer {
-
+.exam-answer{
+ font-size: 18px;
 }
 .exam-btn {
   padding-top: 30px;
@@ -230,6 +231,7 @@ export default {
 .exam-check {
   line-height: 60px;
   padding-left: 15%;
+  font-size: 18px;
 }
 input[type="radio"] {
   opacity: 0;

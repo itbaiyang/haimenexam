@@ -4,7 +4,7 @@
        <img src="../assets/hm-logo.png" alt="">
       <div class="login-title">
         <p class="title-chn">海门市食品协会</p>
-        <p class="title-en">食安知识学习与考试系统</p>
+        <p class="title-en">食品安全知识学习与考试系统</p>
       </div> 
     </div>
     <div class="login-box">
@@ -131,9 +131,10 @@ li {
  position: absolute;
  bottom: 20px;
  left: 50%;
- font-size: 16px;
+ font-size: 18px;
  font-weight: bolder;
  margin-left: -96px;
+ color: #0065a0
 }
 .el-icon-user {
   width: 24px;

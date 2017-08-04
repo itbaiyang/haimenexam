@@ -1,12 +1,28 @@
 <template>
   <div id="app">
     <router-view></router-view>
+    <el-dialog
+    title="提示"
+    :visible.sync="$logout"
+    size="tiny">
+    <p>登录过期，重新登录！</p>
+  </el-dialog>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'app'
+  name: 'app',
+  data () {
+    return {
+      global: this.$logout
+    }
+  },
+  watch: {
+    $logout: function (val, oldVal) {
+      console.log('new: %s, old: %s', val, oldVal)
+    }
+  }
 }
 </script>
 
@@ -82,5 +98,9 @@ em,i {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+.el-checkbox__label {
+    font-size: 18px;
+    padding-left: 15px;
 }
 </style>

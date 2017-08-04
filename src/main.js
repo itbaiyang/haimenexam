@@ -4,6 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import Element from 'element-ui'
+import './store/global'
 import 'element-ui/lib/theme-default/index.css'
 Vue.use(Element)
 import cookie from './store/cookie.js'
@@ -21,7 +22,9 @@ Vue.prototype.$baseUrl = window.location.origin + window.location.pathname
 axios.interceptors.request.use(function (config) {
   if (cookie.getCookie('token')) {
     config.headers.token = cookie.getCookie('token')
-  } else {
+  } else if (config.url.substring(config.url.length - 5, config.url.length) !== 'login') {
+    alert('登录过期，请重新登录')
+    window.location.hash = '#/'
   }
   return config
 }, function (error) {
