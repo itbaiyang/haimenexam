@@ -32,7 +32,7 @@
               <input type="radio" id="radio4" value="D" v-model="radio" :disabled="radio != null">
               <label for="radio4">{{ examItem.optionD }}</label>
             </P>
-            <div>
+            <div style="padding: 20px 0">
               <span v-if="radio == examItem.rightAnswer" style="color: #0f0">回答正确！</span>
               <span v-if="radio && radio != examItem.rightAnswer" style="color: #f00">回答错误！</span>
               <span v-if="radio && radio != examItem.rightAnswer">正确答案：
@@ -40,23 +40,27 @@
             </div>
           </div>
           <div class="exam-answer" v-if="examItem.quesType == 2">
-            <!-- <el-radio class="radio" v-model="radio" label="A">{{ examItem.optionA }}</el-radio>
-            <el-radio class="radio" v-model="radio" label="B">{{ examItem.optionB }}</el-radio>
-            <el-radio v-if="type == 0" class="radio" v-model="radio" label="C">{{ examItem.optionC }}</el-radio>
-            <el-radio v-if="type == 0" class="radio" v-model="radio" label="D">{{ examItem.optionD }}</el-radio> -->
             <el-checkbox-group v-model="checkList">
-              <el-checkbox label="A">{{ examItem.optionA }}</el-checkbox>
-              <el-checkbox label="B">{{ examItem.optionB }}</el-checkbox>
-              <el-checkbox label="C">{{ examItem.optionC }}</el-checkbox>
-              <el-checkbox label="D">{{ examItem.optionD }}</el-checkbox>
-              <el-checkbox label="E" v-show="examItem.optionE">{{ examItem.optionE }}</el-checkbox>
+              <el-checkbox label="A" :disabled="radio != null">{{ examItem.optionA }}</el-checkbox><br/>
+              <el-checkbox label="B" :disabled="radio != null">{{ examItem.optionB }}</el-checkbox><br/>
+              <el-checkbox label="C" :disabled="radio != null">{{ examItem.optionC }}</el-checkbox><br/>
+              <el-checkbox label="D" :disabled="radio != null">{{ examItem.optionD }}</el-checkbox><br/>
+              <el-checkbox label="E" :disabled="radio != null" v-show="examItem.optionE">{{ examItem.optionE }}</el-checkbox><br/>
             </el-checkbox-group>
+            <el-button type="primary" v-on:click="checkAnswers()" size="small">确定</el-button>
+            <div style="padding: 20px 0">
+              <span v-if="radio == examItem.rightAnswer" style="color: #0f0">回答正确！</span>
+              <span v-if="radio && radio != examItem.rightAnswer" style="color: #f00">回答错误！</span>
+              <span v-if="radio && radio != examItem.rightAnswer">正确答案：
+                <i style="font-size:18px;font-weight: bold;color: #33a2f7;">{{ examItem.rightAnswer }}</i></span>
+            </div>
           </div>
         </div>
         <div class="exam-btn">
-          <el-button type="primary" style="margin-right: 20px;" :disabled="count == 0" v-on:click="getExamItem(-1)">上一页</el-button>
+          <!-- <el-button type="primary" style="margin-right: 20px;" :disabled="count == 0" v-on:click="getExamItem(-1)">上一页</el-button> -->
           <el-button type="primary" v-if="count+1 != page.totalCount" v-on:click="getExamItem(1)">下一页</el-button>
-          <el-button type="primary" v-if="count+1 == page.totalCount" v-on:click="getExamResult()">查看结果</el-button>
+          <el-button type="primary" v-if="count+1 == page.totalCount" :disabled="radio == null" @click="dialogVisible = true">查看结果</el-button>
+
         </div>
         <div class="exam-check">
           <el-checkbox v-model="auto">答对自动下一题</el-checkbox>
@@ -67,6 +71,14 @@
       </div>
       <div v-if="!page.totalCount" style="text-align: center">暂时没有题目！！</div>
     </div>
+    <el-dialog
+    title="练习结果"
+    :visible.sync="dialogVisible"
+    size="tiny">
+    <p>正确：{{ right }}</p>
+    <p>错误：{{ error }}</p>
+    <p>正确率：{{ right * 100 / page.totalCount }}%</p>
+  </el-dialog>
   </div>
 </template>
 
@@ -87,7 +99,8 @@ export default {
       auto: false,
       checkList: [],
       isRight: '',
-      isWrong: ''
+      isWrong: '',
+      dialogVisible: false
     }
   },
   mounted () {
@@ -104,7 +117,6 @@ export default {
       }
       this.$ajax.get('exam/quesList', {params: mParams}).then(function (resp) {
         if (resp.data.respCode === '1000000') {
-          console.log(resp.data)
           self.page = resp.data.page
           self.getExamItem(0)
         }
@@ -118,9 +130,6 @@ export default {
       this.isWrong = ''
       this.count = this.count + num
       this.examItem = this.page.rows[this.count]
-    },
-    getExamResult () {
-      alert('结束了')
     },
     checkAnswer (event) {
       const self = this
@@ -205,7 +214,6 @@ export default {
 }
 .exam-content {
   margin: 10px 40px;
-  height: 200px;
   border-bottom: 1px solid #e0e0e0;
 }
 .exam-title{
@@ -216,7 +224,7 @@ export default {
 
 }
 .exam-btn {
-  padding-top: 50px;
+  padding-top: 30px;
   padding-left: 15%;
 }
 .exam-check {

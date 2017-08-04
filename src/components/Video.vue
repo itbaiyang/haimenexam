@@ -2,8 +2,8 @@
   <div class="exam">
     <div class="exam-header">微小餐饮单位食品安全知识考核</div>
     <video controls="controls" class="video-ctrl" preload autoplay>
-      <source v-bind:src="pathname + url" type="video/mp4" />
-      <source v-bind:src="pathname + url" type="video/ogg" />
+      <source v-bind:src="url" type="video/mp4" />
+      <source v-bind:src="url" type="video/ogg" />
     </video>
   </div>
 </template>
@@ -14,8 +14,7 @@ export default {
   name: 'Video',
   data () {
     return {
-      url: 'http://zs.zrodo.com/haimenexam/video/' + this.$route.params.id + '/' + this.$route.params.id + '.mp4',
-      pathname: window.location.pathname
+      url: 'http://zs.zrodo.com/haimenexam/video/' + this.$route.params.id + '/' + this.$route.params.id + '.mp4'
     }
   },
   mounted () {

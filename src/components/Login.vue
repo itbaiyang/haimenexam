@@ -1,11 +1,11 @@
 <template>
   <div class="login">
     <div class="login-header">
-      <img src="../assets/guohui.png" alt="">
+       <img src="../assets/hm-logo.png" alt="">
       <div class="login-title">
-        <p class="title-chn">海门市食品协会食安知识学习与考试系统</p>
-        <p class="title-en">Food Safety Supervision And Management Of Haimen Farmers Market</p>
-      </div>
+        <p class="title-chn">海门市食品协会</p>
+        <p class="title-en">食安知识学习与考试系统</p>
+      </div> 
     </div>
     <div class="login-box">
       <div class="login-user login-up">
@@ -16,6 +16,7 @@
       </div>
       <el-button type="primary" class="login-button" v-on:click="login">登录</el-button>
     </div>
+    <div class="login-bottom">海门市市场监督管理局监制</div>
   </div>
 </template>
 
@@ -85,21 +86,20 @@ li {
 .login-title {
   display: inline-block;
   vertical-align: top;
-  margin: 16px 0 0 40px;
+  margin: 5px 0 0 20px;
   color: #ffffff;
-  padding-left: 40px;
-  border-left: 2px solid #ffffff;
+  padding-left: 20px;
 }
 
 .title-chn {
-  line-height: 42px;
+  line-height: 50px;
   font-size: 40px;
   text-align: left;
 }
 
 .title-en {
-  line-height: 26px;
-  font-size: 20px;
+  line-height: 44px;
+  font-size: 30px;
   text-align: left;
 }
 
@@ -127,7 +127,14 @@ li {
 .login-button {
   width: 90%;
 }
-
+.login-bottom {
+ position: absolute;
+ bottom: 20px;
+ left: 50%;
+ font-size: 16px;
+ font-weight: bolder;
+ margin-left: -96px;
+}
 .el-icon-user {
   width: 24px;
   height: 24px;
