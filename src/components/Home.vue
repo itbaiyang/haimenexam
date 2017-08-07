@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <h1>微小餐饮单位食品安全知识考核</h1>
+    <h1>食品安全知识考核</h1>
     <el-row :gutter="20">
       <el-col :lg="5" :md="5" :sm="12" :xs="12">
         <div class="grid-content bg-video"></div>
@@ -38,10 +38,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1,
-h2 {
+h1 {
   font-weight: normal;
   color: #ffffff;
+  font-size: 40px;
 }
 
 ul {
@@ -86,7 +86,8 @@ li {
   height: 100px;
   margin: 0 auto;
   background-repeat: no-repeat;
-  background-size: 100%; 
+  background-size: 102%;
+  background-position: center; 
 }
 
 .bg-judge {

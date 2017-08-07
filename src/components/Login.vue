@@ -1,9 +1,9 @@
 <template>
   <div class="login">
     <div class="login-header">
-       <img src="../assets/hm-logo.png" alt="">
+       <span></span>
       <div class="login-title">
-        <p class="title-chn">海门市食品协会</p>
+        <p class="title-chn">海门市食品行业协会</p>
         <p class="title-en">食品安全知识学习与考试系统</p>
       </div> 
     </div>
@@ -82,6 +82,13 @@ li {
   width: 100%;
   height: 100px;
 }
+.login-header span {
+  display: inline-block;
+  width: 98px;
+  height: 98px;
+  background: url(../assets/hm-logo.png)no-repeat center;
+  border-radius: 50%;
+}
 
 .login-title {
   display: inline-block;
@@ -89,11 +96,12 @@ li {
   margin: 5px 0 0 20px;
   color: #ffffff;
   padding-left: 20px;
+  border-radius: 50%;
 }
 
 .title-chn {
   line-height: 50px;
-  font-size: 40px;
+  font-size: 42px;
   text-align: left;
 }
 
