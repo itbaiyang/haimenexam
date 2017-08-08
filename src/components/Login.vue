@@ -43,7 +43,12 @@ export default {
       this.$ajax.post('nanjing/login', Qs.stringify(mParams)).then(function (resp) {
         if (resp.data.respCode === '1000000') {
           self.$cookie.setCookie('token', resp.data.token, 1)
-          self.$router.push('/home')
+          window.sessionStorage.setItem('userInfo', JSON.stringify(resp.data.resultList))
+          if (resp.data.resultList.userId === 'admin') {
+            self.$router.push('/admin')
+          } else {
+            self.$router.push('/home')
+          }
         }
       }).then(function (resp) {
       })

@@ -30,7 +30,6 @@ axios.interceptors.request.use(function (config) {
   // Do something with request error
   return Promise.reject(error)
 })
-
 // Add a response interceptor
 axios.interceptors.response.use(function (response) {
   // Do something with response data
@@ -41,6 +40,18 @@ axios.interceptors.response.use(function (response) {
 })
 Vue.prototype.$ajax = axios
 Vue.config.productionTip = false
+router.beforeEach((to, from, next) => {
+  if (to.path.indexOf('admin') > 0) {
+    const userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'))
+    if (userInfo.userId === 'admin') {
+      next()
+    } else {
+      alert('你无权访问该页面')
+    }
+  } else {
+    next()
+  }
+})
 
 /* eslint-disable no-new */
 new Vue({
