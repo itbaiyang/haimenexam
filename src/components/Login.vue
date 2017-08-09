@@ -133,10 +133,6 @@ li {
   margin: 0 auto 20px;
 }
 
-.login-user {}
-
-.login-pwd {}
-
 .login-button {
   width: 90%;
 }

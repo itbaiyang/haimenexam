@@ -1,5 +1,16 @@
 <template>
   <div class="home">
+    <div class="admin-option">
+      <el-dropdown @command="userOption">
+        <span class="el-dropdown-link">
+          {{ userInfo.userName }}<i class="el-icon-caret-bottom el-icon--right"></i>
+        </span>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item command="a" v-if="userInfo.userId == 'admin'">后台管理</el-dropdown-item>
+          <el-dropdown-item command="b">退出登录</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
+    </div>
     <h1>食品安全知识考核</h1>
     <el-row :gutter="20">
       <el-col :lg="5" :md="5" :sm="12" :xs="12">
@@ -31,6 +42,18 @@ export default {
   name: 'home',
   data () {
     return {
+      'userInfo': JSON.parse(window.sessionStorage.getItem('userInfo'))
+    }
+  },
+  methods: {
+    userOption (command) {
+      if (command === 'a') {
+        this.$router.push('/admin/exam')
+      } else if (command === 'b') {
+        this.$cookie.clearCookie('token')
+        window.sessionStorage.clear()
+        this.$router.push('/')
+      }
     }
   }
 }
@@ -43,17 +66,6 @@ h1 {
   color: #ffffff;
   font-size: 40px;
 }
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
 .home {
   width: 100%;
   height: 100%;
@@ -61,14 +73,23 @@ li {
   padding-top: 10%;
   text-align: center;
 }
-
+.admin-option {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  color: #ffffff;
+  margin-right: 20px;
+}
+.el-dropdown-link {
+  display: inline-block;
+  color: #ffffff;
+  cursor: pointer;
+  height: 30px;
+}
 .el-row {
   margin-top: 10%;
   margin-bottom: 20px;
   padding: 0 20%;
-  &:last-child {
-    margin-bottom: 0;
-  }
 }
 
 .el-col {
@@ -121,33 +142,29 @@ li {
   line-height: 60px;
   font-size: 16px;
 }
-@media screen and (max-width:700px){
+@media screen and (max-width:700px) {
   .home{
     width: 100%;
     height: 100%;
     background-color: #0065a0;
     padding-top: 20%;
     text-align: center;
-}
-  h1,
-h2 {
-  font-weight: normal;
-  color: #ffffff;
-  font-size:18px;
-}
-.el-row {
-  margin-top: 10%;
-  margin-bottom: 20px;
-  padding: 0 8%;
-  &:last-child {
-    margin-bottom: 0;
   }
-}
-.bg-purple {
-  width: 80px;
-  height: 80px;
-  margin: 0 auto;
-  background: #6bd7ff;
-}
+  h1{
+    font-weight: normal;
+    color: #ffffff;
+    font-size:18px;
+  }
+  .el-row {
+    margin-top: 10%;
+    margin-bottom: 20px;
+    padding: 0 8%;
+  }
+  .bg-purple {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+    background: #6bd7ff;
+  }
 }
 </style>

@@ -49,7 +49,8 @@ export default new Router({
       component: Admin,
       children: [
         { path: 'exam', component: ExamMange },
-        { path: 'test', component: TestMange }
+        { path: 'test', component: TestMange },
+        { path: 'video', component: TestMange }
       ]
     },
     {
