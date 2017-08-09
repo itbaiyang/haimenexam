@@ -14,6 +14,9 @@ const cookie = {
       if (c.indexOf(name) !== -1) return c.substring(name.length, c.length)
     }
     return ''
+  },
+  clearCookie: function (name) {
+    this.setCookie(name, '', -1)
   }
 }
 export default cookie

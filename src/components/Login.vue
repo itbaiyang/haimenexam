@@ -28,7 +28,7 @@ export default {
   name: 'login',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App',
+      msg: 'Welcome to haimen exam',
       username: '',
       password: ''
     }
@@ -45,7 +45,7 @@ export default {
           self.$cookie.setCookie('token', resp.data.token, 1)
           window.sessionStorage.setItem('userInfo', JSON.stringify(resp.data.resultList))
           if (resp.data.resultList.userId === 'admin') {
-            self.$router.push('/admin')
+            self.$router.push('/admin/exam')
           } else {
             self.$router.push('/home')
           }

@@ -1,11 +1,22 @@
 <template>
 <div class="admin">
-  <h1>食品安全知识考核管理平台</h1>
+  <div class="admin-header">
+    <span>食品安全知识考核管理平台</span>
+    <div class="admin-option fr">
+      <el-dropdown @command="userOption">
+        <span class="el-dropdown-link">
+          {{ userInfo.userName }}<i class="el-icon-caret-bottom el-icon--right"></i>
+        </span>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item command="a">退出登录</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
+    </div>
+  </div>
   <el-col :span="4" style="height:100%">
-    <ul>
+    <ul class="menu-ul">
       <li v-bind:class="{'active': active == 'exam'}"><router-link to="/admin/exam">考卷管理</router-link></li>
       <li v-bind:class="{'active': active == 'test'}"><router-link to="/admin/test">试题管理</router-link></li>
-      <li><router-link to="/admin/exam">考卷管理</router-link></li>
     </ul>
   </el-col>
   <el-col :span="20">
@@ -17,16 +28,27 @@
 export default {
   data () {
     return {
-      'active': ''
+      'active': window.location.hash.substring(8, 12),
+      'userInfo': JSON.parse(window.sessionStorage.getItem('userInfo'))
     }
   },
   updated () {
     this.active = window.location.hash.substring(8, 12)
+  },
+  methods: {
+    userOption (command) {
+      if (command === 'a') {
+        console.log('tuichu')
+        this.$cookie.clearCookie('token')
+        window.sessionStorage.clear()
+        this.$router.push('/')
+      }
+    }
   }
 }
 </script>
 <style scoped>
-h1 {
+.admin-header {
   font-weight: normal;
   background: #0065a0;
   color: #ffffff;
@@ -34,8 +56,17 @@ h1 {
   height: 60px;
   line-height: 60px;
 }
-
-ul {
+.admin-option {
+  color: #ffffff;
+  margin-right: 20px;
+}
+.el-dropdown-link {
+  display: inline-block;
+  color: #ffffff;
+  cursor: pointer;
+  height: 58px;
+}
+ul.menu-ul {
   list-style-type: none;
   /* padding: 20px 0; */
   height: 100%;
@@ -43,7 +74,7 @@ ul {
   color: #ffffff;
 }
 
-li {
+.menu-ul li {
   line-height: 50px;
   font-size: 16px;
   padding-left: 15px;
