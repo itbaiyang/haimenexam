@@ -44,7 +44,7 @@ export default {
         if (resp.data.respCode === '1000000') {
           self.$cookie.setCookie('token', resp.data.token, 1)
           window.sessionStorage.setItem('userInfo', JSON.stringify(resp.data.resultList))
-          if (resp.data.resultList.userId === 'admin') {
+          if (resp.data.resultList.deptLevel === '1') {
             self.$router.push('/admin/exam')
           } else {
             self.$router.push('/home')

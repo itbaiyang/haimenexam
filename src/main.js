@@ -43,7 +43,7 @@ Vue.config.productionTip = false
 router.beforeEach((to, from, next) => {
   if (to.path.indexOf('admin') > 0) {
     const userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'))
-    if (userInfo.userId === 'admin') {
+    if (userInfo.deptLevel === '1') {
       next()
     } else {
       alert('你无权访问该页面')
