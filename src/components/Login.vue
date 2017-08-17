@@ -9,10 +9,10 @@
     </div>
     <div class="login-box">
       <div class="login-user login-up">
-        <el-input size="large" v-model="username" placeholder="请输入账号"></el-input>
+        <el-input size="large" v-model="username" placeholder="请输入账号" @keyup.enter.native="login" autofocus></el-input>
       </div>
       <div class="login-pwd login-up">
-        <el-input type="password" size="large" v-model="password" placeholder="请输入密码"></el-input>
+        <el-input type="password" size="large" v-model="password" placeholder="请输入密码" @keyup.enter.native="login"></el-input>
       </div>
       <el-button type="primary" class="login-button" v-on:click="login">登录</el-button>
     </div>
