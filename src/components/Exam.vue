@@ -1,7 +1,23 @@
 <template>
   <div class="exam">
-    <div class="exam-header">微小餐饮单位食品安全知识考核</div>
-    <div class="exam-container">
+    <div class="header abs">
+      <div class="header-left">
+        <img src="../assets/hm-logo.png" alt="">
+        <span>海门市食品协会</span>
+      </div>
+      <div class="header-right">
+        <span>身份证号：{{ creditno }}</span>
+        <el-dropdown @command="logout">
+          <span class="el-dropdown-link">
+            退出登录<i class="el-icon-caret-bottom el-icon--right"></i>
+          </span>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item>退出登录</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </div>
+    </div>
+    <div class="exam-container" v-if="model1 == 0">
       <div class="exam-breadcrumb">
         <router-link :to="{name:'Home'}" class="link">知识考核</router-link>
         <span>></span>
@@ -9,7 +25,7 @@
       </div>
       <div class="exam-content">
         <div class="exam-title">
-          <span>{{ count + 1 }}/{{ page.totalCount }}</span>
+          <span>{{ count + 1 }}/{{ length1 }}</span>
           <span>{{ examItem.content }}</span>
         </div>
         <div class="exam-answer" v-if="examItem.quesType != 2">
@@ -20,27 +36,39 @@
         </div>
         <div class="exam-answer" v-if="examItem.quesType == 2">
           <el-checkbox-group v-model="checkList">
-            <el-checkbox label="A">{{ examItem.optionA }}</el-checkbox>
-            <el-checkbox label="B">{{ examItem.optionB }}</el-checkbox>
-            <el-checkbox label="C">{{ examItem.optionC }}</el-checkbox>
-            <el-checkbox label="D">{{ examItem.optionD }}</el-checkbox>
+            <el-checkbox label="A">{{ examItem.optionA }}</el-checkbox><br/>
+            <el-checkbox label="B">{{ examItem.optionB }}</el-checkbox><br/>
+            <el-checkbox label="C">{{ examItem.optionC }}</el-checkbox><br/>
+            <el-checkbox label="D">{{ examItem.optionD }}</el-checkbox><br/>
             <el-checkbox label="E" v-show="examItem.optionE">{{ examItem.optionE }}</el-checkbox>
           </el-checkbox-group>
         </div>
       </div>
       <div class="exam-btn">
         <el-button type="primary" style="margin-right: 20px;" v-on:click="getExamItem(-1)">上一页</el-button>
-        <el-button type="primary" v-if="count + 1 != page.totalCount" v-on:click="getExamItem(1)">下一页</el-button>
-        <el-button type="primary" v-if="count + 1 == page.totalCount" :disabled="this.radio == null" @click="getScore">交卷</el-button>
+        <el-button type="primary" v-if="count != length1 -1" v-on:click="getExamItem(1)">下一页</el-button>
+        <!-- <el-button type="primary" v-if="count != length1 -1" v-on:click="getExamItem(34)">下一页</el-button> -->
+        <el-button type="primary" v-if="count == length1 -1" :disabled="this.radio == null" @click="getScore">交卷</el-button>
       </div>
+    </div>
+    <div class="exam-container result" v-if="model1 == 1">
+      <p><span style="font-size: 40px; color: #f00">{{ examScore }}分</span>，未通过考试</p>
+      <img src="../assets/fa.png" alt="">
+      <div>您本次的考试成绩为<span style="color: #f00">{{examScore}}分</span>，未通过考试，请再接再厉，再考一次吧</div>
+      <!-- <button style="margin-top: 50px;" v-on:click="reset">重新考试</button> -->
+      <el-button style="margin-top: 50px;" type="primary" @click="reset">重新考试</el-button>
+    </div>
+    <div class="exam-container result" v-if="model1 == 2">
+      <p><span style="font-size: 40px; color: #f00">{{ examScore }}分</span>，恭喜考试通过</p>
+      <img src="../assets/su.png" alt="">
+      <div>请关闭浏览器</div>
     </div>
     <el-dialog
     title="恭喜考试结束"
     :visible.sync="dialogVisible"
     size="tiny">
-    <p>正确：{{ examScore }}</p>
-    <p>错误：{{ page.totalCount - examScore }}</p>
-    <p>正确率：{{ examScore * 100 / page.totalCount }}%</p>
+    <p>考试得分：{{ examScore }}分</p>
+
   </el-dialog>
     <el-dialog
     title="提示"
@@ -69,7 +97,10 @@ export default {
       score: [],
       examScore: 0,
       dialogVisible: false,
-      examStart: false
+      examStart: false,
+      length1: 0,
+      model1: 0,
+      creditno: JSON.parse(window.sessionStorage.getItem('userInfo1')).creditno
     }
   },
   mounted () {
@@ -84,9 +115,10 @@ export default {
         'quesType': quesType,
         'examPoint': examPoint
       }
-      this.$ajax.get('exam/quesList', {params: mParams}).then(function (resp) {
+      this.$ajax.get('exam/quesListByNoRand', {params: mParams}).then(function (resp) {
         if (resp.data.respCode === '1000000') {
-          self.page = resp.data.page
+          self.page = resp.data.queLst
+          self.length1 = self.page.length
           self.getExamItem(0)
         }
       }).then(function (resp) {
@@ -97,7 +129,7 @@ export default {
       if (this.first === true) {
         this.first = false
         this.count = this.count + num
-        this.examItem = this.page.rows[this.count]
+        this.examItem = this.page[this.count]
         this.examStart = true
         window.setTimeout(function () {
           self.examStart = false
@@ -115,7 +147,7 @@ export default {
         this.score[this.count] = 0
       }
       this.count = this.count + num
-      this.examItem = this.page.rows[this.count]
+      this.examItem = this.page[this.count]
       if (this.result[this.count]) {
         if (this.examItem.quesType === '2') this.checkList = this.result[this.count].split(',')
         else this.radio = this.result[this.count]
@@ -125,11 +157,34 @@ export default {
       }
     },
     getScore () {
+      let self = this
       this.examScore = 0
       for (var i = 0; i < this.score.length; i++) {
-        this.examScore += this.score[i]
+        this.examScore += this.score[i] * this.page[i].examPoint
       }
-      this.dialogVisible = true
+      if (this.examScore < 60) {
+        self.model1 = 1
+      } else {
+        let userInfo1 = JSON.parse(window.sessionStorage.getItem('userInfo1'))
+        const mParams = {
+          'creditno': userInfo1.creditno,
+          'telphone': userInfo1.telphone,
+          'score': this.examScore
+        }
+        this.$ajax.get('exam/handPaperByCredit', {params: mParams}).then(function (resp) {
+          self.model1 = 2
+          if (resp.data.respCode === '1000000') {
+            self.dialogVisible = true
+          }
+        }).then(function (resp) {
+        })
+      }
+    },
+    reset () {
+      location.reload()
+    },
+    logout () {
+      this.$router.push('/')
     }
   }
 }
@@ -195,7 +250,14 @@ export default {
   line-height: 60px;
   padding-left: 15%;
 }
-
+.result {
+  text-align: center;
+  padding-top: 100px;
+}
+.result p{
+  font-size: 30px;
+  padding-bottom: 50px;
+}
 @media screen and (max-width:700px){
   .exam-container {
    left: 0; 

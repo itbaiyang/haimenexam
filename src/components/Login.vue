@@ -1,20 +1,38 @@
 <template>
   <div class="login">
-    <div class="login-header">
-       <span></span>
-      <div class="login-title">
-        <p class="title-chn">海门市食品行业协会</p>
-        <p class="title-en">食品安全知识学习与考试系统</p>
-      </div> 
-    </div>
+  
     <div class="login-box">
-      <div class="login-user login-up">
-        <el-input size="large" v-model="username" placeholder="请输入账号" @keyup.enter.native="login" autofocus></el-input>
+      <div class="login-left">
+        <div class="login-logo"></div>
+        <div class="login-title">
+          <p class="title-chn">海门市食品行业协会</p>
+          <p class="title-en">食品安全知识考试系统</p>
+        </div> 
       </div>
-      <div class="login-pwd login-up">
-        <el-input type="password" size="large" v-model="password" placeholder="请输入密码" @keyup.enter.native="login"></el-input>
+      <div class="login-right">
+        <p>
+          <span class="border-right" v-bind:class="{ 'active': model == 1 }" v-on:click="changeModel (1)">考生登录</span>
+          <span v-bind:class="{ 'active': model == 0}" v-on:click="changeModel (0)">管理员登录</span>
+          </p>
+        <div v-if="model == 0">
+          <div class="login-user login-up">
+            <el-input size="large" v-model="username" placeholder="请输入账号" @keyup.enter.native="login" autofocus></el-input>
+          </div>
+          <div class="login-pwd login-up">
+            <el-input type="password" size="large" v-model="password" placeholder="请输入密码" @keyup.enter.native="login"></el-input>
+          </div>
+          <el-button type="primary" class="login-button" v-on:click="login">登录</el-button>
+        </div>
+        <div v-if="model == 1">
+          <div class="login-user login-up">
+            <el-input size="large" v-model="creditno" placeholder="请输入身份证号" @keyup.enter.native="login" autofocus></el-input>
+          </div>
+          <div class="login-pwd login-up">
+            <el-input size="large" v-model="telphone" placeholder="请输入手机号" @keyup.enter.native="login"></el-input>
+          </div>
+          <el-button type="primary" class="login-button" v-on:click="loginExam">登录</el-button>
+        </div>
       </div>
-      <el-button type="primary" class="login-button" v-on:click="login">登录</el-button>
     </div>
     <div class="login-bottom">海门市市场监督管理局监制</div>
   </div>
@@ -28,9 +46,11 @@ export default {
   name: 'login',
   data () {
     return {
-      msg: 'Welcome to haimen exam',
+      model: 1,
       username: '',
-      password: ''
+      password: '',
+      creditno: '',
+      telphone: ''
     }
   },
   methods: {
@@ -40,18 +60,37 @@ export default {
         username: Base64.encode(this.username),
         password: Base64.encode(md5(this.password))
       }
-      this.$ajax.post('nanjing/login', Qs.stringify(mParams)).then(function (resp) {
+      this.$ajax.post('haimen/login', Qs.stringify(mParams)).then(function (resp) {
         if (resp.data.respCode === '1000000') {
           self.$cookie.setCookie('token', resp.data.token, 1)
           window.sessionStorage.setItem('userInfo', JSON.stringify(resp.data.resultList))
           if (resp.data.resultList.deptLevel === '1') {
-            self.$router.push('/admin/exam')
+            self.$router.push('/admin/score')
           } else {
-            self.$router.push('/home')
+            alert('不是管理员账号!!')
           }
         }
       }).then(function (resp) {
       })
+    },
+    loginExam () {
+      const self = this
+      const mParams = {
+        creditno: this.creditno,
+        telphone: this.telphone
+      }
+      this.$ajax.get('exam/getCheckByInfo', {params: mParams}).then(function (resp) {
+        if (resp.data.respCode === '1000000') {
+          window.sessionStorage.setItem('userInfo1', JSON.stringify(mParams))
+          self.$router.push('/choose')
+        } else {
+          alert(resp.data.respMsg)
+        }
+      }).then(function (resp) {
+      })
+    },
+    changeModel (model) {
+      this.model = model
     }
   }
 }
@@ -83,49 +122,81 @@ li {
   text-align: center;
 }
 
-.login-header {
-  width: 100%;
-  height: 100px;
-}
-.login-header span {
-  display: inline-block;
-  width: 98px;
-  height: 98px;
-  background: url(../assets/hm-logo.png)no-repeat center;
-  border-radius: 50%;
-}
-
-.login-title {
-  display: inline-block;
-  vertical-align: top;
-  margin: 5px 0 0 20px;
-  color: #ffffff;
-  padding-left: 20px;
-  border-radius: 50%;
-}
-
-.title-chn {
-  line-height: 50px;
-  font-size: 42px;
-  text-align: left;
-}
-
-.title-en {
-  line-height: 44px;
-  font-size: 30px;
-  text-align: left;
-}
-
 .login-box {
-  width: 400px;
+  width: 600px;
   height: 300px;
-  margin: 5% auto;
-  padding: 40px 15px;
+  margin: 0 auto;
+  padding: 0;
   background: #ffffff;
   border-radius: 4px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .12), 0 0 6px 0 rgba(0, 0, 0, .04);
 }
+.login-left {
+  display: inline-block;
+  width: 260px;
+  height: 300px;
+  padding: 20px 30px;
+  background: #329adf;
+  border-radius: 3px 0 0 3px;
 
+}
+.login-logo {
+  margin: 0 auto;
+  width: 90px;
+  height: 90px;
+  background: url(../assets/hm-logo.png)no-repeat center;
+  border-radius: 50%;
+}
+.login-title {
+  color: #ffffff;
+  margin-top: 10px;
+  text-align: center;
+  border-top: 1px solid #ffffff;
+  padding-top: 20px;
+}
+
+.title-chn {
+  line-height: 30px;
+  font-size: 22px;
+}
+
+.title-en {
+  line-height: 24px;
+  font-size: 16px;
+}
+.login-right {
+  display: inline-block;
+  padding-top: 40px;
+  width: 336px;
+  height: 300px;
+  vertical-align: top;
+}
+.login-right {
+  display: inline-block;
+  padding-top: 40px;
+  width: 336px;
+  height: 200px;
+  vertical-align: top;
+}
+.login-right p {
+  margin-bottom: 20px;
+  padding-left: 20px;
+  line-height: 20px;
+  font-size: 14px;
+  text-align: left;
+} 
+.login-right p span{
+  display: inline-block;
+  padding: 0 10px;
+  color: #4c4c4c;
+  cursor: pointer;
+}
+.border-right{
+  border-right: 1px solid #a3a3a3;
+} 
+.login-right p span.active{
+  color: #ff7c08;
+} 
 .login-up {
   width: 90%;
   height: 40px;

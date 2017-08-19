@@ -23,8 +23,8 @@ axios.interceptors.request.use(function (config) {
   if (cookie.getCookie('token')) {
     config.headers.token = cookie.getCookie('token')
   } else if (config.url.substring(config.url.length - 5, config.url.length) !== 'login') {
-    alert('登录过期，请重新登录')
-    window.location.hash = '#/'
+    // alert('登录过期，请重新登录')
+    // window.location.hash = '#/'
   }
   return config
 }, function (error) {

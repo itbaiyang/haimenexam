@@ -8,7 +8,7 @@
           {{ userInfo.userName }}<i class="el-icon-caret-bottom el-icon--right"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item command="a">普通用户</el-dropdown-item>
+          <!-- <el-dropdown-item command="a">普通用户</el-dropdown-item> -->
           <el-dropdown-item command="b">退出登录</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -16,9 +16,9 @@
   </div>
   <el-col :span="4" style="height:100%">
     <ul class="menu-ul">
-      <li v-bind:class="{'active': active == 'exam'}"><router-link to="/admin/exam">考卷管理</router-link></li>
-      <li v-bind:class="{'active': active == 'test'}"><router-link to="/admin/test">试题管理</router-link></li>
-      <li v-bind:class="{'active': active == 'vide'}"><router-link to="/admin/video">视频管理</router-link></li>
+      <!-- <li v-bind:class="{'active': active == 'exam'}"><router-link to="/admin/exam">考卷管理</router-link></li> -->
+      <!-- <li v-bind:class="{'active': active == 'test'}"><router-link to="/admin/test">试题管理</router-link></li> -->
+      <li v-bind:class="{'active': active == 'scor'}"><router-link to="/admin/score">成绩查询</router-link></li>
     </ul>
   </el-col>
   <el-col :span="20">
@@ -42,7 +42,6 @@ export default {
       if (command === 'a') {
         this.$router.push('/home')
       } else if (command === 'b') {
-        console.log('tuichu')
         this.$cookie.clearCookie('token')
         window.sessionStorage.clear()
         this.$router.push('/')

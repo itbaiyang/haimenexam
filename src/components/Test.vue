@@ -1,6 +1,14 @@
 <template>
   <div class="exam">
-    <div class="exam-header">微小餐饮单位食品安全知识考核</div>
+    <div class="header abs">
+      <div class="header-left">
+        <img src="../assets/hm-logo.png" alt="">
+        <span>海门市食品协会</span>
+      </div>
+      <div class="header-right">
+        <span>身份证号：{{ creditno }}</span>
+      </div>
+    </div>
     <div class="exam-container">
       <div class="exam-breadcrumb">
         <router-link :to="{name:'Home'}" class="link">知识考核</router-link>
@@ -100,7 +108,8 @@ export default {
       checkList: [],
       isRight: '',
       isWrong: '',
-      dialogVisible: false
+      dialogVisible: false,
+      creditno: JSON.parse(window.sessionStorage.getItem('userInfo1')).creditno
     }
   },
   mounted () {
@@ -178,7 +187,11 @@ export default {
   position: relative;
   width: 100%;
   height: 100%;
-  background-color: #f2f2f2;
+  background-color: url(../assets/choose-bg.png);
+}
+.abs {
+  position: absolute;
+  z-index: 3;
 }
 .exam-header {
   text-align: center;

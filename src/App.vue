@@ -37,7 +37,7 @@ table {
 }
 a {
     color:#42b983;
-    // text-decoration:none;
+    /* // text-decoration:none; */
 }
 a:hover {
     text-decoration:none;
@@ -86,5 +86,57 @@ em,i {
 .el-checkbox__label {
     font-size: 18px;
     padding-left: 15px;
+}
+.bg-inner {
+  width: 100%;
+  height: 100%;
+  background: url('./assets/choose-bg.png')no-repeat 100% center;
+}
+.header {
+    width: 100%;
+    height: 60px;
+    background: #329adf;
+    color: #ffffff;
+}
+.header-left {
+  box-sizing: border-box;
+  display: inline-block;
+  padding-left: 100px;
+  width: 50%;
+  font-size: 22px;
+  line-height: 60px;
+}
+.header-left img {
+  width: 50px;
+  height: 50px;
+  vertical-align: middle;
+}
+.header-left span {
+  vertical-align: middle;
+  font-weight: 700;
+}
+.header-right {
+  display: inline-block;
+  width: 48%;
+  text-align: right;
+  padding-right: 100px;
+  font-size: 16px;
+}
+.header-right span{
+  padding-left: 30px;
+}
+.footer {
+  width: 100%;
+  height: 40px;
+  color: #ffffff;
+  font-size: 30px;
+  font-weight: 700;
+  text-align: center;
+  position: fixed;
+  bottom: 50px;
+}
+.abs {
+  position: absolute;
+  z-index: 3;
 }
 </style>
