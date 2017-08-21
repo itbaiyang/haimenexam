@@ -162,7 +162,7 @@ export default {
       for (var i = 0; i < this.score.length; i++) {
         this.examScore += this.score[i] * this.page[i].examPoint
       }
-      if (this.examScore < 60) {
+      if (this.examScore < 80) {
         self.model1 = 1
       } else {
         let userInfo1 = JSON.parse(window.sessionStorage.getItem('userInfo1'))
