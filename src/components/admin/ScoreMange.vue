@@ -1,5 +1,5 @@
 <template>
-  <div class="exam-admin">
+  <div class="exam-admin" style="height: 100%;">
     <p>考试成绩列表</p>
     <div style="width: 200px;display:inline-block">
       <el-input v-model="creditno" placeholder="身份证号"></el-input>
@@ -15,12 +15,23 @@
       <el-button type="primary" @click="getScoreList(1, 100)">确 定</el-button>
     </div>
 
-    <el-table :data="tableData" style="width: 100%">
+    <el-table :data="tableData" style="width: 100%; max-height: calc(100% - 220px);overflow:auto">
       <el-table-column prop="creditno" label="身份证" width="180"></el-table-column>
       <el-table-column prop="telphone" label="电话" width="180"></el-table-column>
       <el-table-column prop="createdate" label="考试时间"></el-table-column>
       <el-table-column prop="score" label="分数"></el-table-column>
     </el-table>
+    <div class="block" style="margin-top:20px; float:right">
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="getScoreList"
+        :current-page.sync="currentPage"
+        :page-sizes="[5, 10, 15, 20]"
+        :page-size="10"
+        layout="total, sizes, prev, pager, next"
+        :total="total">
+      </el-pagination>
+    </div>
   </div>
 </template>
 <script>
@@ -31,20 +42,24 @@ export default {
       creditno: '',
       datetime: '',
       telphone: '',
-      tableData: []
+      tableData: [],
+      currentPage: 1,
+      total: 0
     }
   },
   mounted () {
-    this.getScoreList(1, 100)
+    this.getScoreList(1, 10)
   },
   methods: {
-    getScoreList (pageno, pageSize, creditno, telphone, startdate, enddate) {
-      console.log(this.datatime)
+    handleSizeChange (val) {
+      this.getScoreList(this.currentPage, val)
+    },
+    getScoreList (pageno, pagesize, creditno, telphone, startdate, enddate) {
       const self = this
       const mParams = {
         'creditno': this.creditno,
         'telphone': this.telphone,
-        'pagesize': pageSize,
+        'pagesize': pagesize,
         'pageno': pageno
         // 'startdate': this.formatDate(self.datetime[0], 'yyyy-MM-dd hh:mm:ss'),
         // 'enddate': this.formatDate(self.datetime[1], 'yyyy-MM-dd hh:mm:ss')
@@ -52,7 +67,8 @@ export default {
       this.$ajax.get('exam/examRankByCredit', { params: mParams }).then(function (resp) {
         if (resp.data.respCode === '1000000') {
           self.tableData = resp.data.result
-          console.log(self.tableData)
+          self.total = resp.data.count
+          console.log(self.total)
         }
       }).then(function (resp) {
       })

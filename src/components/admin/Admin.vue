@@ -21,7 +21,7 @@
       <li v-bind:class="{'active': active == 'scor'}"><router-link to="/admin/score">成绩查询</router-link></li>
     </ul>
   </el-col>
-  <el-col :span="20">
+  <el-col :span="20" style="height:100%">
     <router-view></router-view>
   </el-col>
   </div>
