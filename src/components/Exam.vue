@@ -159,6 +159,16 @@ export default {
     getScore () {
       let self = this
       this.examScore = 0
+      if (this.examItem.quesType === '2') {
+        this.checkList.sort()
+        this.radio = this.checkList.toString()
+      }
+      this.result[this.count] = this.radio
+      if (this.radio.replace(/[,]/g, '') === this.examItem.rightAnswer) {
+        this.score[this.count] = 1
+      } else {
+        this.score[this.count] = 0
+      }
       for (var i = 0; i < this.score.length; i++) {
         this.examScore += this.score[i] * this.page[i].examPoint
       }
