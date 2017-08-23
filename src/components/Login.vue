@@ -25,10 +25,10 @@
         </div>
         <div v-if="model == 1">
           <div class="login-user login-up">
-            <el-input size="large" v-model="creditno" placeholder="请输入身份证号" @keyup.enter.native="login" autofocus></el-input>
+            <el-input size="large" v-model="creditno" placeholder="请输入身份证号" maxlength="18" @keyup.enter.native="login" autofocus></el-input>
           </div>
           <div class="login-pwd login-up">
-            <el-input size="large" v-model="telphone" placeholder="请输入手机号" @keyup.enter.native="login"></el-input>
+            <el-input size="large" v-model="telphone" placeholder="请输入手机号" maxlength="11" @keyup.enter.native="login"></el-input>
           </div>
           <el-button type="primary" class="login-button" v-on:click="loginExam">登录</el-button>
         </div>
@@ -74,20 +74,26 @@ export default {
       })
     },
     loginExam () {
-      const self = this
-      const mParams = {
-        creditno: this.creditno,
-        telphone: this.telphone
-      }
-      this.$ajax.get('exam/getCheckByInfo', {params: mParams}).then(function (resp) {
-        if (resp.data.respCode === '1000000') {
-          window.sessionStorage.setItem('userInfo1', JSON.stringify(mParams))
-          self.$router.push('/choose')
-        } else {
-          alert(resp.data.respMsg)
+      if (this.creditno.length !== 15 && this.creditno.length !== 18) {
+        alert('身份证号长度不正确')
+      } else if (this.telphone !== 11) {
+        alert('手机号长度不正确')
+      } else {
+        const self = this
+        const mParams = {
+          creditno: this.creditno,
+          telphone: this.telphone
         }
-      }).then(function (resp) {
-      })
+        this.$ajax.get('exam/getCheckByInfo', {params: mParams}).then(function (resp) {
+          if (resp.data.respCode === '1000000') {
+            window.sessionStorage.setItem('userInfo1', JSON.stringify(mParams))
+            self.$router.push('/choose')
+          } else {
+            alert(resp.data.respMsg)
+          }
+        }).then(function (resp) {
+        })
+      }
     },
     changeModel (model) {
       this.model = model
