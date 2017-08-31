@@ -46,7 +46,7 @@ export default new Router({
       component: Test
     },
     {
-      path: '/exam',
+      path: '/exam/:type',
       name: 'Exam',
       component: Exam
     },

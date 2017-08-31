@@ -19,20 +19,23 @@
     </div>
     <div class="exam-container" v-if="model1 == 0">
       <div class="exam-breadcrumb">
-        <router-link :to="{name:'Home'}" class="link">知识考核</router-link>
+        <router-link :to="{name:'Choose'}" class="link">知识考核</router-link>
         <span>></span>
         <span>综合考试</span>
       </div>
       <div class="exam-content">
         <div class="exam-title">
           <span>{{ count + 1 }}/{{ length1 }}</span>
+          <span v-if="examItem.quesType == 0" style="color:#0072d5;font-weight:bold">【单选题】</span>
+          <span v-if="examItem.quesType == 1" style="color:#0072d5;font-weight:bold">【是非题】</span>
+          <span v-if="examItem.quesType == 2" style="color:#0072d5;font-weight:bold">【多选题】</span>
           <span>{{ examItem.content }}</span>
         </div>
         <div class="exam-answer" v-if="examItem.quesType != 2">
-          <el-radio class="radio" v-model="radio" label="A">{{ examItem.optionA }}</el-radio>
-          <el-radio class="radio" v-model="radio" label="B">{{ examItem.optionB }}</el-radio>
-          <el-radio v-if="examItem.quesType == 0" class="radio" v-model="radio" label="C">{{ examItem.optionC }}</el-radio>
-          <el-radio v-if="examItem.quesType == 0" class="radio" v-model="radio" label="D">{{ examItem.optionD }}</el-radio>
+          <el-radio class="radio" v-model="radio" label="A">{{ examItem.optionA }}</el-radio></br>
+          <el-radio class="radio" v-model="radio" label="B">{{ examItem.optionB }}</el-radio></br>
+          <el-radio v-if="examItem.quesType == 0" class="radio" v-model="radio" label="C">{{ examItem.optionC }}</el-radio></br>
+          <el-radio v-if="examItem.quesType == 0" class="radio" v-model="radio" label="D">{{ examItem.optionD }}</el-radio></br>
         </div>
         <div class="exam-answer" v-if="examItem.quesType == 2">
           <el-checkbox-group v-model="checkList">
@@ -78,14 +81,13 @@
   </el-dialog>
   </div>
 </template>
-
 <script>
-// import Qs from 'qs'
 export default {
   name: 'exam',
   data () {
     return {
       token: this.$cookie.getCookie('token'),
+      examType: this.$route.params.type,
       page: {},
       examItem: {},
       count: 0,
@@ -104,7 +106,11 @@ export default {
     }
   },
   mounted () {
-    this.getExamList(1, 100)
+    if (+this.examType === 0) {
+      this.getExamCommonList(1, 100)
+    } else {
+      this.getExamList(1, 100)
+    }
   },
   methods: {
     getExamList (pageNo, pageSize, quesType, examPoint) {
@@ -116,6 +122,24 @@ export default {
         'examPoint': examPoint
       }
       this.$ajax.get('exam/quesListByNoRand', {params: mParams}).then(function (resp) {
+        if (resp.data.respCode === '1000000') {
+          self.page = resp.data.queLst
+          self.length1 = self.page.length
+          self.getExamItem(0)
+        }
+      }).then(function (resp) {
+      })
+    },
+    getExamCommonList (pageNo, pageSize, quesType, examPoint) {
+      const self = this
+      const mParams = {
+        'pageNo': pageNo,
+        'pageSize': pageSize,
+        'quesType': quesType,
+        'examPoint': examPoint
+      }
+      this.$ajax.get('exam/quesListByRandForCommon', {params: mParams}).then(function (resp) {
+        console.log(resp.data)
         if (resp.data.respCode === '1000000') {
           self.page = resp.data.queLst
           self.length1 = self.page.length
@@ -179,7 +203,8 @@ export default {
         const mParams = {
           'creditno': userInfo1.creditno,
           'telphone': userInfo1.telphone,
-          'score': this.examScore
+          'score': this.examScore,
+          'examType': this.examType
         }
         this.$ajax.get('exam/handPaperByCredit', {params: mParams}).then(function (resp) {
           self.model1 = 2
@@ -241,7 +266,7 @@ export default {
 }
 .exam-content {
   margin: 10px 40px;
-  height: 200px;
+  height: 300px;
   border-bottom: 1px solid #e0e0e0;
 }
 .exam-title{

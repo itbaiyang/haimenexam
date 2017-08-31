@@ -4,8 +4,9 @@ import 'babel-polyfill'
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import '../theme/index.css'
 import Element from 'element-ui'
-import 'element-ui/lib/theme-default/index.css'
+// import 'element-ui/lib/theme-default/index.css'
 Vue.use(Element)
 import cookie from './store/cookie.js'
 Vue.prototype.$cookie = cookie

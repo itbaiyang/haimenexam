@@ -3,12 +3,13 @@
     <div class="header">
       <div class="header-left">
         <img src="../assets/hm-logo.png" alt="">
-        <span>海门市食品协会</span>
+        <span><router-link to="/admin/score">海门市食品协会</router-link></span>
       </div>
       <div class="header-right">
         <span>身份证号：{{ creditno }}</span>
       </div>
     </div>
+    <p class="reback"><img src="../assets/home.png"><router-link to="/choose">返回</router-link></p>
     <h1>海门市食安协会食品安全知识考试系统（教育系统版）</h1>
     <el-row :gutter="20">
       <el-col :lg="5" :md="5" :sm="12" :xs="12">
@@ -41,15 +42,6 @@ export default {
     }
   },
   methods: {
-    // userOption (command) {
-    //   if (command === 'a') {
-    //     this.$router.push('/admin/exam')
-    //   } else if (command === 'b') {
-    //     this.$cookie.clearCookie('token')
-    //     window.sessionStorage.clear()
-    //     this.$router.push('/')
-    //   }
-    // },
     choose (type) {
       if (type === 4) {
         window.open('https://baike.baidu.com/item/%E4%B8%AD%E5%8D%8E%E4%BA%BA%E6%B0%91%E5%85%B1%E5%92%8C%E5%9B%BD%E9%A3%9F%E5%93%81%E5%AE%89%E5%85%A8%E6%B3%95/6275500?fr=aladdin&fromid=314491&fromtitle=%E9%A3%9F%E5%93%81%E5%AE%89%E5%85%A8%E6%B3%95')
@@ -66,47 +58,32 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h1 {
-  margin-top: 10%;
+  margin-top: 9%;
   text-align: center;
   color: #ffffff;
   font-size: 36px;
 }
-/* .home {
-  width: 100%;
-  height: 100%;
-  background: url('../assets/choose-bg.png')no-repeat 100% center;
-} */
-/* .header {
-    width: 100%;
-    height: 60px;
-    background: #329adf;
-    color: #ffffff;
+a {
+    color:#ffffff;
+    text-decoration:none;
 }
-.header-left {
-  box-sizing: border-box;
-  display: inline-block;
+.reback {
+  line-height: 40px;
+  font-size: 20px;
   padding-left: 100px;
-  width: 50%;
-  font-size: 22px;
-  line-height: 60px;
+  padding-top: 15px
 }
-.header-left img {
-  width: 50px;
-  height: 50px;
+.reback img {
+  width: 30px;
+  height: 30px;
+  vertical-align: middle;
+  margin-right: 15px
+}
+.reback a {
+  font-size: 26px;
+  line-height: 40px;
   vertical-align: middle;
 }
-.header-left span {
-  vertical-align: middle;
-  font-weight: 700;
-}
-.header-right {
-  display: inline-block;
-  width: 48%;
-  text-align: right;
-  padding-right: 100px;
-  font-size: 16px;
-} */
-
 .admin-option {
   position: absolute;
   top: 10px;

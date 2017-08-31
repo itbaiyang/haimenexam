@@ -76,7 +76,7 @@ export default {
     loginExam () {
       if (this.creditno.length !== 15 && this.creditno.length !== 18) {
         alert('身份证号长度不正确')
-      } else if (this.telphone !== 11) {
+      } else if (this.telphone.length !== 11) {
         alert('手机号长度不正确')
       } else {
         const self = this
