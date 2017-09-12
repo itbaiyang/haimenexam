@@ -6,6 +6,7 @@
         <span>海门市食品协会</span>
       </div>
       <div class="header-right">
+        <span>考试时间：{{examTime}}</span>  
         <span>身份证号：{{ creditno }}</span>
         <el-dropdown @command="logout">
           <span class="el-dropdown-link">
@@ -43,8 +44,24 @@ export default {
   name: 'choose',
   data () {
     return {
+      'token': this.$cookie.getCookie('token'),
+      'loginTime': this.$cookie.getCookie('loginTime'),
+      'examTime': '',
       'userInfo': JSON.parse(window.sessionStorage.getItem('userInfo')),
-      creditno: JSON.parse(window.sessionStorage.getItem('userInfo1')).creditno
+      'creditno': JSON.parse(window.sessionStorage.getItem('userInfo1')).creditno
+    }
+  },
+  mounted () {
+    const self = this
+    if (this.token) {
+      console.log(self.loginTime)
+      var now = Date.parse(new Date())
+      var time1 = now - parseInt(self.loginTime)
+      console.log(parseInt(time1 / 60000))
+      var time = new Date(now - parseInt(self.loginTime))
+      console.log(time.toLocaleString())
+      this.examTime = this.formatDate(time, 'yyyy-MM-dd hh:mm:ss')
+      console.log(this.examTime)
     }
   },
   methods: {
@@ -57,6 +74,29 @@ export default {
     },
     logout () {
       this.$router.push('/')
+    },
+    formatDate (date, fmt) {
+      console.log(date.toString(), fmt)
+      if (/(y+)/.test(fmt)) {
+        fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length))
+      }
+      let o = {
+        'M+': date.getMonth() + 1,
+        'd+': date.getDate(),
+        'h+': date.getHours(),
+        'm+': date.getMinutes(),
+        's+': date.getSeconds()
+      }
+      for (let k in o) {
+        if (new RegExp(`(${k})`).test(fmt)) {
+          let str = o[k] + ''
+          fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? str : this.padLeftZero(str))
+        }
+      }
+      return fmt
+    },
+    padLeftZero (str) {
+      return ('00' + str).substr(str.length)
     }
   }
 }

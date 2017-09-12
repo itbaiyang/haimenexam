@@ -50,7 +50,8 @@ export default {
       username: '',
       password: '',
       creditno: '',
-      telphone: ''
+      telphone: '',
+      loginTime: ''
     }
   },
   methods: {
@@ -87,6 +88,8 @@ export default {
         this.$ajax.get('exam/getCheckByInfo', {params: mParams}).then(function (resp) {
           if (resp.data.respCode === '1000000') {
             window.sessionStorage.setItem('userInfo1', JSON.stringify(mParams))
+            self.loginTime = new Date()
+            self.$cookie.setCookie('loginTime', Date.parse(self.loginTime), 1)
             self.$router.push('/choose')
           } else {
             alert(resp.data.respMsg)
