@@ -6,6 +6,8 @@
         <span>海门市食品协会</span>
       </div>
       <div class="header-right">
+        <span>开考时间：{{startTime}}</span>
+        <!-- <span>考试时间：{{examTime}}</span>  -->
         <span>身份证号：{{ creditno }}</span>
         <el-dropdown @command="logout">
           <span class="el-dropdown-link">
@@ -90,6 +92,9 @@ export default {
       examType: this.$route.params.type,
       page: {},
       examItem: {},
+      startTime: '',
+      // nowTime: '',
+      // examTime: '',
       count: 0,
       radio: '',
       right: 0,
@@ -108,9 +113,15 @@ export default {
   mounted () {
     if (+this.examType === 0) {
       this.getExamCommonList(1, 100)
-    } else {
+    } else if (+this.examType === 1) {
       this.getExamList(1, 100)
+    } else {
+      this.getExamManagerList(1, 100)
     }
+    var now = new Date()
+    this.startTime = this.formatDate(now, 'yyyy-MM-dd hh:mm')
+    // var time = new Date(now - parseInt(self.startTime))
+    // this.examTime = this.formatDate(time, 'yyyy-MM-dd hh:mm:ss')
   },
   methods: {
     getExamList (pageNo, pageSize, quesType, examPoint) {
@@ -139,7 +150,23 @@ export default {
         'examPoint': examPoint
       }
       this.$ajax.get('exam/quesListByRandForCommon', {params: mParams}).then(function (resp) {
-        console.log(resp.data)
+        if (resp.data.respCode === '1000000') {
+          self.page = resp.data.queLst
+          self.length1 = self.page.length
+          self.getExamItem(0)
+        }
+      }).then(function (resp) {
+      })
+    },
+    getExamManagerList (pageNo, pageSize, quesType, examPoint) {
+      const self = this
+      const mParams = {
+        'pageNo': pageNo,
+        'pageSize': pageSize,
+        'quesType': quesType,
+        'examPoint': examPoint
+      }
+      this.$ajax.get('exam/quesListByNoRandForAdmin', {params: mParams}).then(function (resp) {
         if (resp.data.respCode === '1000000') {
           self.page = resp.data.queLst
           self.length1 = self.page.length
@@ -220,6 +247,29 @@ export default {
     },
     logout () {
       this.$router.push('/')
+    },
+    formatDate (date, fmt) {
+      console.log(date.toString(), fmt)
+      if (/(y+)/.test(fmt)) {
+        fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length))
+      }
+      let o = {
+        'M+': date.getMonth() + 1,
+        'd+': date.getDate(),
+        'h+': date.getHours(),
+        'm+': date.getMinutes(),
+        's+': date.getSeconds()
+      }
+      for (let k in o) {
+        if (new RegExp(`(${k})`).test(fmt)) {
+          let str = o[k] + ''
+          fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? str : this.padLeftZero(str))
+        }
+      }
+      return fmt
+    },
+    padLeftZero (str) {
+      return ('00' + str).substr(str.length)
     }
   }
 }

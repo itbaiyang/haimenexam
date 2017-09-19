@@ -80,22 +80,14 @@ export default {
       } else if (this.telphone.length !== 11) {
         alert('手机号长度不正确')
       } else {
-        const self = this
         const mParams = {
           creditno: this.creditno,
           telphone: this.telphone
         }
-        this.$ajax.get('exam/getCheckByInfo', {params: mParams}).then(function (resp) {
-          if (resp.data.respCode === '1000000') {
-            window.sessionStorage.setItem('userInfo1', JSON.stringify(mParams))
-            self.loginTime = new Date()
-            self.$cookie.setCookie('loginTime', Date.parse(self.loginTime), 1)
-            self.$router.push('/choose')
-          } else {
-            alert(resp.data.respMsg)
-          }
-        }).then(function (resp) {
-        })
+        window.sessionStorage.setItem('userInfo1', JSON.stringify(mParams))
+        this.loginTime = new Date()
+        this.$cookie.setCookie('loginTime', Date.parse(self.loginTime), 1)
+        this.$router.push('/choose')
       }
     },
     changeModel (model) {

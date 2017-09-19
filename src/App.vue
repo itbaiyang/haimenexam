@@ -102,7 +102,7 @@ em,i {
   box-sizing: border-box;
   display: inline-block;
   padding-left: 100px;
-  width: 50%;
+  width: 40%;
   font-size: 22px;
   line-height: 60px;
 }
@@ -117,7 +117,7 @@ em,i {
 }
 .header-right {
   display: inline-block;
-  width: 48%;
+  width: 58%;
   text-align: right;
   padding-right: 100px;
   font-size: 16px;

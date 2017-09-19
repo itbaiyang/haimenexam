@@ -11,6 +11,7 @@ Vue.use(Element)
 import cookie from './store/cookie.js'
 Vue.prototype.$cookie = cookie
 import axios from 'axios'
+import Qs from 'qs'
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 if (window['context'] === undefined) {
   if (!window.location.origin) {
@@ -20,6 +21,23 @@ if (window['context'] === undefined) {
 }
 axios.defaults.baseURL = window.location.origin + '/haimen/'
 Vue.prototype.$baseUrl = window.location.origin + window.location.pathname
+const mParams = {
+  creditno: '111111111111111111',
+  telphone: '11111111111',
+  studyLength: 5
+}
+window.setInterval(function () {
+  if (window.sessionStorage.getItem('userInfo1') == null) {
+  } else {
+    axios.post('exam/insertStudyLengthByCredit', Qs.stringify(mParams)).then(function (resp) {
+      if (resp.data.respCode === '1000000') {
+      } else {
+        alert(resp.data.respMsg)
+      }
+    }).then(function (resp) {
+    })
+  }
+}, 300000)
 axios.interceptors.request.use(function (config) {
   if (cookie.getCookie('token')) {
     config.headers.token = cookie.getCookie('token')

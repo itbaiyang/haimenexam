@@ -6,7 +6,6 @@
         <span>海门市食品协会</span>
       </div>
       <div class="header-right">
-        <span>考试时间：{{examTime}}</span>  
         <span>身份证号：{{ creditno }}</span>
         <el-dropdown @command="logout">
           <span class="el-dropdown-link">
@@ -20,17 +19,22 @@
     </div>
     <h1>海门市食安协会食品安全知识考试系统（教育系统版）</h1>
     <el-row :gutter="20" class="test-style">
-      <el-col :lg="6" :md="6" :offset="3" >
-        <div class="grid-content bg-exam" v-on:click="choose(0,0)"></div>
+      <el-col :lg="5" :md="5" :offset="2" >
+        <div class="grid-content bg-exam-c" v-on:click="choose(0,0)"></div>
         <p>食安考试</p>
         <h5>(普通版)</h5>
       </el-col>
-      <el-col :lg="6" :md="6">
-        <div class="grid-content bg-exam" v-on:click="choose(0,1)"></div>
+      <el-col :lg="5" :md="5">
+        <div class="grid-content bg-exam-e" v-on:click="choose(0,1)"></div>
         <p>食安考试</p>
         <h5>(教育考试版)</h5>
       </el-col>
-      <el-col :lg="6" :md="6">
+      <el-col :lg="5" :md="5">
+        <div class="grid-content bg-exam-m" v-on:click="choose(0,2)"></div>
+        <p>食安考试</p>
+        <h5>(管理员考试版)</h5>
+      </el-col>
+      <el-col :lg="5" :md="5">
         <div class="grid-content bg-study" v-on:click="choose(1)"></div>
         <p>食安学习</p>
       </el-col>
@@ -45,31 +49,30 @@ export default {
   data () {
     return {
       'token': this.$cookie.getCookie('token'),
-      'loginTime': this.$cookie.getCookie('loginTime'),
-      'examTime': '',
       'userInfo': JSON.parse(window.sessionStorage.getItem('userInfo')),
       'creditno': JSON.parse(window.sessionStorage.getItem('userInfo1')).creditno
     }
   },
   mounted () {
-    const self = this
-    if (this.token) {
-      console.log(self.loginTime)
-      var now = Date.parse(new Date())
-      var time1 = now - parseInt(self.loginTime)
-      console.log(parseInt(time1 / 60000))
-      var time = new Date(now - parseInt(self.loginTime))
-      console.log(time.toLocaleString())
-      this.examTime = this.formatDate(time, 'yyyy-MM-dd hh:mm:ss')
-      console.log(this.examTime)
-    }
   },
   methods: {
     choose (type, level) {
+      let self = this
       if (type === 1) {
         this.$router.push('/home')
       } else if (type === 0) {
-        this.$router.push('/exam/' + level)
+        const mParams = {
+          creditno: JSON.parse(window.sessionStorage.getItem('userInfo1')).creditno,
+          telphone: JSON.parse(window.sessionStorage.getItem('userInfo1')).telphone
+        }
+        this.$ajax.get('exam/getCheckByInfo', {params: mParams}).then(function (resp) {
+          if (resp.data.respCode === '1000000') {
+            self.$router.push('/exam/' + level)
+          } else {
+            alert(resp.data.respMsg)
+          }
+        }).then(function (resp) {
+        })
       }
     },
     logout () {
@@ -134,8 +137,14 @@ h1 {
 .bg-study {
   background-image: url(../assets/study-link.png); 
 }
-.bg-exam {
-  background-image: url(../assets/exam-link.png); 
+.bg-exam-c {
+  background-image: url(../assets/exam-c-link.png); 
+}
+.bg-exam-m {
+  background-image: url(../assets/exam-m-link.png); 
+}
+.bg-exam-e {
+  background-image: url(../assets/exam-e-link.png); 
 }
 
 .admin-option {
