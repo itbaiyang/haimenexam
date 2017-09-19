@@ -21,14 +21,14 @@ if (window['context'] === undefined) {
 }
 axios.defaults.baseURL = window.location.origin + '/haimen/'
 Vue.prototype.$baseUrl = window.location.origin + window.location.pathname
-const mParams = {
-  creditno: '111111111111111111',
-  telphone: '11111111111',
-  studyLength: 5
-}
 window.setInterval(function () {
   if (window.sessionStorage.getItem('userInfo1') == null) {
   } else {
+    const mParams = {
+      creditno: window.sessionStorage.getItem('userInfo1').creditno,
+      telphone: window.sessionStorage.getItem('userInfo1').telphone,
+      studyLength: 5
+    }
     axios.post('exam/insertStudyLengthByCredit', Qs.stringify(mParams)).then(function (resp) {
       if (resp.data.respCode === '1000000') {
       } else {

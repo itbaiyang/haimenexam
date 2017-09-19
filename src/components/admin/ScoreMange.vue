@@ -70,6 +70,9 @@ export default {
         }, {
           value: '1',
           label: '教育系统考试'
+        }, {
+          value: '2',
+          label: '管理员考试'
         }
       ],
       value: ''
