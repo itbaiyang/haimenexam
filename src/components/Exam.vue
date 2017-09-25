@@ -1,24 +1,6 @@
 <template>
   <div class="exam">
-    <div class="header abs">
-      <div class="header-left">
-        <img src="../assets/hm-logo.png" alt="">
-        <span>海门市食品协会</span>
-      </div>
-      <div class="header-right">
-        <span>开考时间：{{startTime}}</span>
-        <!-- <span>考试时间：{{examTime}}</span>  -->
-        <span>身份证号：{{ creditno }}</span>
-        <el-dropdown @command="logout">
-          <span class="el-dropdown-link">
-            退出登录<i class="el-icon-caret-bottom el-icon--right"></i>
-          </span>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>退出登录</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
-      </div>
-    </div>
+    <top class="abs"></top>
     <div class="exam-container" v-if="model1 == 0">
       <div class="exam-breadcrumb">
         <router-link :to="{name:'Choose'}" class="link">知识考核</router-link>
@@ -84,6 +66,7 @@
   </div>
 </template>
 <script>
+import Top from './Top'
 export default {
   name: 'exam',
   data () {
@@ -109,6 +92,9 @@ export default {
       model1: 0,
       creditno: JSON.parse(window.sessionStorage.getItem('userInfo1')).creditno
     }
+  },
+  components: {
+    Top
   },
   mounted () {
     if (+this.examType === 0) {

@@ -1,22 +1,7 @@
 <template>
   <div class="bg-inner">
-    <div class="header">
-      <div class="header-left">
-        <img src="../assets/hm-logo.png" alt="">
-        <span>海门市食品协会</span>
-      </div>
-      <div class="header-right">
-        <span>身份证号：{{ creditno }}</span>
-        <el-dropdown @command="logout">
-          <span class="el-dropdown-link">
-            退出登录<i class="el-icon-caret-bottom el-icon--right"></i>
-          </span>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>退出登录</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
-      </div>
-    </div>
+    <top></top>
+      <button v-on:click="getStudyLength" class="fr cstime" style="margin-top: 20px"></button>
     <h1>海门市食安协会食品安全知识考试系统（教育系统版）</h1>
     <el-row :gutter="20" class="test-style">
       <el-col :lg="5" :md="5" :offset="2" >
@@ -44,6 +29,7 @@
 </template>
 
 <script>
+import Top from './Top'
 export default {
   name: 'choose',
   data () {
@@ -52,6 +38,9 @@ export default {
       'userInfo': JSON.parse(window.sessionStorage.getItem('userInfo')),
       'creditno': JSON.parse(window.sessionStorage.getItem('userInfo1')).creditno
     }
+  },
+  components: {
+    Top
   },
   mounted () {
   },
@@ -74,6 +63,20 @@ export default {
         }).then(function (resp) {
         })
       }
+    },
+    getStudyLength () {
+      // const self = this
+      const mParams = {
+        'creditno': this.creditno
+      }
+      this.$ajax.get('exam/getStudyLengthByCredit', {params: mParams}).then(function (resp) {
+        if (resp.data.respCode === '1000000') {
+          let h = parseInt(resp.data.result / 60)
+          let m = resp.data.result % 60
+          alert('学习时长：' + h + '小时' + m + '分钟')
+        }
+      }).then(function (resp) {
+      })
     },
     logout () {
       this.$router.push('/')
@@ -113,7 +116,14 @@ h1 {
   color: #ffffff;
   font-size: 36px;
 }
-
+.cstime {
+  width: 120px;
+  height: 40px;
+  margin-right: 20px;
+  background: url(../assets/cstime.png);
+  background-size: 100% 100%;
+  border-radius: 20px;
+}
 .grid-content {
   border-radius: 50%;
   min-height: 36px;

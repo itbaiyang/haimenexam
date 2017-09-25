@@ -30,7 +30,7 @@
       <el-table-column prop="telphone" label="电话" width="180"></el-table-column>
       <el-table-column prop="createdate" label="考试时间"></el-table-column>
       <el-table-column prop="examType" label="考试类型"></el-table-column>
-      <el-table-column prop="studyLength" label="学习时长"></el-table-column>
+      <el-table-column prop="studyLength" :formatter="formatter" label="学习时长"></el-table-column>
       <el-table-column prop="score" label="分数"></el-table-column>
     </el-table>
     <div class="block" style="margin-top:20px; float:right">
@@ -84,6 +84,15 @@ export default {
   methods: {
     handleSizeChange (val) {
       this.getScoreList(this.currentPage, val)
+    },
+    formatter (row, column) {
+      let h = parseInt(row.studyLength / 60)
+      let m = row.studyLength % 60
+      if (h > 0) {
+        return h + '小时' + m + '分钟'
+      } else {
+        return m + '分钟'
+      }
     },
     getScoreList (pageno, pagesize, startdate, enddate) {
       const self = this

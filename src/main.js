@@ -19,14 +19,14 @@ if (window['context'] === undefined) {
   }
   window['context'] = location.origin + '/V6.0'
 }
-axios.defaults.baseURL = window.location.origin + '/haimen/'
+axios.defaults.baseURL = window.location.origin + '/haimentest/'
 Vue.prototype.$baseUrl = window.location.origin + window.location.pathname
 window.setInterval(function () {
   if (window.sessionStorage.getItem('userInfo1') == null) {
   } else {
     const mParams = {
-      creditno: window.sessionStorage.getItem('userInfo1').creditno,
-      telphone: window.sessionStorage.getItem('userInfo1').telphone,
+      creditno: JSON.parse(window.sessionStorage.getItem('userInfo1')).creditno,
+      telphone: JSON.parse(window.sessionStorage.getItem('userInfo1')).telphone,
       studyLength: 5
     }
     axios.post('exam/insertStudyLengthByCredit', Qs.stringify(mParams)).then(function (resp) {

@@ -1,14 +1,6 @@
 <template>
   <div class="exam">
-    <div class="header abs">
-      <div class="header-left">
-        <img src="../assets/hm-logo.png" alt="">
-        <span>海门市食品协会</span>
-      </div>
-      <div class="header-right">
-        <span>身份证号：{{ creditno }}</span>
-      </div>
-    </div>
+    <top class="abs"></top>
     <div class="exam-container">
       <div class="exam-breadcrumb">
         <router-link :to="{name:'Home'}" class="link">知识考核</router-link>
@@ -91,7 +83,7 @@
 </template>
 
 <script>
-// import Qs from 'qs'
+import Top from './Top'
 export default {
   name: 'test',
   data () {
@@ -111,6 +103,9 @@ export default {
       dialogVisible: false,
       creditno: JSON.parse(window.sessionStorage.getItem('userInfo1')).creditno
     }
+  },
+  components: {
+    Top
   },
   mounted () {
     this.getExamList(1, 100, this.type)

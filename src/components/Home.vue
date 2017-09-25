@@ -1,22 +1,17 @@
 <template>
   <div class="bg-inner">
-    <div class="header">
-      <div class="header-left">
-        <img src="../assets/hm-logo.png" alt="">
-        <span><router-link to="/admin/score">海门市食品协会</router-link></span>
-      </div>
-      <div class="header-right">
-        <span>身份证号：{{ creditno }}</span>
-      </div>
-    </div>
-    <p class="reback"><img src="../assets/home.png"><router-link to="/choose">返回</router-link></p>
+    <top></top>
+    <p class="reback">
+    <img src="../assets/home.png"><router-link to="/choose">返回</router-link>
+    <button v-on:click="getStudyLength" class="fr cstime"></button>
+    </p>
     <h1>海门市食安协会食品安全知识考试系统（教育系统版）</h1>
     <el-row :gutter="20">
       <el-col :lg="5" :md="5" :sm="12" :xs="12">
         <div class="grid-content bg-video" v-on:click="choose(3)"></div>
       </el-col>
       <el-col :lg="5" :md="5" :sm="12" :xs="12">
-        <div class="grid-content bg-safe" v-on:click="choose(4)"></div>
+        <div class="grid-content bg-link" onclick="window.open('https://baike.baidu.com/item/%E4%B8%AD%E5%8D%8E%E4%BA%BA%E6%B0%91%E5%85%B1%E5%92%8C%E5%9B%BD%E9%A3%9F%E5%93%81%E5%AE%89%E5%85%A8%E6%B3%95/6275500?fr=aladdin&fromid=314491&fromtitle=%E9%A3%9F%E5%93%81%E5%AE%89%E5%85%A8%E6%B3%95')"></div>
       </el-col>
       <el-col :lg="5" :md="5" :sm="12" :xs="12">
         <div class="grid-content bg-judge" v-on:click="choose(1)"></div>
@@ -27,12 +22,18 @@
       <el-col :lg="4" :md="4" :sm="12" :xs="12">
         <div class="grid-content bg-multiple" v-on:click="choose(2)"></div>
       </el-col>
+      <el-col :lg="5" :md="5" :sm="12" :xs="12">
+        <div class="grid-content bg-link-2" onclick="window.open('http://www.360doc.com/content/14/0122/21/10327450_347201399.shtml')"></div>
+      </el-col>
+      <el-col :lg="5" :md="5" :sm="12" :xs="12">
+        <div class="grid-content bg-link-3" onclick="window.open('http://www.360doc.com/content/13/0629/22/10327450_296440232.shtml')"></div>
+      </el-col>
     </el-row>
     <div class="footer">海门市市场监督管理局监制</div>
   </div>
 </template>
-
 <script>
+import Top from './Top'
 export default {
   name: 'home',
   data () {
@@ -41,15 +42,30 @@ export default {
       creditno: JSON.parse(window.sessionStorage.getItem('userInfo1')).creditno
     }
   },
+  components: {
+    Top
+  },
   methods: {
     choose (type) {
-      if (type === 4) {
-        window.open('https://baike.baidu.com/item/%E4%B8%AD%E5%8D%8E%E4%BA%BA%E6%B0%91%E5%85%B1%E5%92%8C%E5%9B%BD%E9%A3%9F%E5%93%81%E5%AE%89%E5%85%A8%E6%B3%95/6275500?fr=aladdin&fromid=314491&fromtitle=%E9%A3%9F%E5%93%81%E5%AE%89%E5%85%A8%E6%B3%95')
-      } else if (type === 3) {
+      if (type === 3) {
         this.$router.push('/videolist')
       } else {
         this.$router.push('/test/' + type)
       }
+    },
+    getStudyLength () {
+      // const self = this
+      const mParams = {
+        'creditno': this.creditno
+      }
+      this.$ajax.get('exam/getStudyLengthByCredit', {params: mParams}).then(function (resp) {
+        if (resp.data.respCode === '1000000') {
+          let h = parseInt(resp.data.result / 60)
+          let m = resp.data.result % 60
+          alert('学习时长：' + h + '小时' + m + '分钟')
+        }
+      }).then(function (resp) {
+      })
     }
   }
 }
@@ -98,13 +114,14 @@ a {
   height: 30px;
 }
 .el-row {
-  margin-top: 10%;
+  margin-top: 5%;
   margin-bottom: 20px;
   padding: 0 20%;
 }
 
 .el-col {
   border-radius: 4px;
+  margin-bottom: 20px;
 }
 
 .bg-purple-dark {
@@ -122,11 +139,18 @@ a {
   background-position: center; 
   cursor: pointer;
 }
-
+.cstime {
+  width: 120px;
+  height: 40px;
+  margin-right: 20px;
+  background: url(../assets/cstime.png);
+  background-size: 100% 100%;
+  border-radius: 20px;
+}
 .bg-judge {
   background-image: url(../assets/judge.png); 
 }
-.bg-safe {
+.bg-link {
   background-image: url(../assets/safe.png); 
 }
 .bg-single {
@@ -134,6 +158,12 @@ a {
 }
 .bg-multiple {
   background-image: url(../assets/multiple.png); 
+}
+.bg-link-2 {
+  background-image: url(../assets/link2.png); 
+}
+.bg-link-3 {
+  background-image: url(../assets/link3.png); 
 }
 .bg-video {
   background-image: url(../assets/video.png); 
