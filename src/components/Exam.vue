@@ -101,8 +101,10 @@ export default {
       this.getExamCommonList(1, 100)
     } else if (+this.examType === 1) {
       this.getExamList(1, 100)
-    } else {
+    } else if (+this.examType === 2) {
       this.getExamManagerList(1, 100)
+    } else {
+      this.getExamProduceList()
     }
     var now = new Date()
     this.startTime = this.formatDate(now, 'yyyy-MM-dd hh:mm')
@@ -153,6 +155,23 @@ export default {
         'examPoint': examPoint
       }
       this.$ajax.get('exam/quesListByNoRandForAdmin', {params: mParams}).then(function (resp) {
+        if (resp.data.respCode === '1000000') {
+          self.page = resp.data.queLst
+          self.length1 = self.page.length
+          self.getExamItem(0)
+        }
+      }).then(function (resp) {
+      })
+    },
+    getExamProduceList (pageNo, pageSize, quesType, examPoint) {
+      const self = this
+      const mParams = {
+        // 'pageNo': pageNo,
+        // 'pageSize': pageSize,
+        // 'quesType': quesType,
+        // 'examPoint': examPoint
+      }
+      this.$ajax.get('exam/quesListByRandForProduce', {params: mParams}).then(function (resp) {
         if (resp.data.respCode === '1000000') {
           self.page = resp.data.queLst
           self.length1 = self.page.length

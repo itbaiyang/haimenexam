@@ -19,7 +19,7 @@ if (window['context'] === undefined) {
   }
   window['context'] = location.origin + '/V6.0'
 }
-axios.defaults.baseURL = window.location.origin + '/haimentest/'
+axios.defaults.baseURL = window.location.origin + '/haimen/'
 Vue.prototype.$baseUrl = window.location.origin + window.location.pathname
 window.setInterval(function () {
   if (window.sessionStorage.getItem('userInfo1') == null) {

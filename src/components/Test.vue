@@ -8,6 +8,7 @@
         <span v-if="type == 1">判断题</span>
         <span v-if="type == 0">单择题</span>
         <span v-if="type == 2">多选题</span>
+        <span v-if="type == 3">生产企业</span>
       </div>
       <div v-if="page.totalCount">
         <div class="exam-content">
@@ -90,7 +91,10 @@ export default {
     return {
       token: this.$cookie.getCookie('token'),
       type: this.$route.params.type,
-      page: {},
+      page: {
+        rows: [],
+        totalCount: 0
+      },
       examItem: {},
       count: 0,
       radio: null,
@@ -108,7 +112,11 @@ export default {
     Top
   },
   mounted () {
-    this.getExamList(1, 100, this.type)
+    if (+this.type === 3) {
+      this.getProduceList()
+    } else {
+      this.getExamList(1, 100, this.type)
+    }
   },
   methods: {
     getExamList (pageNo, pageSize, quesType, examPoint) {
@@ -122,6 +130,24 @@ export default {
       this.$ajax.get('exam/quesList', {params: mParams}).then(function (resp) {
         if (resp.data.respCode === '1000000') {
           self.page = resp.data.page
+          self.getExamItem(0)
+        }
+      }).then(function (resp) {
+      })
+    },
+    getProduceList (pageNo, pageSize, quesType, examPoint) {
+      const self = this
+      const mParams = {
+        // 'pageNo': pageNo,
+        // 'pageSize': pageSize,
+        // 'quesType': quesType,
+        // 'examPoint': examPoint
+      }
+      this.$ajax.get('exam/quesListForProduce', {params: mParams}).then(function (resp) {
+        if (resp.data.respCode === '1000000') {
+          self.page.rows = resp.data.queLst
+          self.page.totalCount = resp.data.totalsize
+          console.log(self.page)
           self.getExamItem(0)
         }
       }).then(function (resp) {
