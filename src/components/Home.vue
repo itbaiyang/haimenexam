@@ -8,7 +8,7 @@
     <h1>海门市食安协会食品安全知识考试系统（教育系统版）</h1>
     <el-row :gutter="20">
       <el-col :lg="5" :md="5" :sm="12" :xs="12">
-        <div class="grid-content bg-video" v-on:click="choose(4)"></div>
+        <div class="grid-content bg-video" v-on:click="choose(6)"></div>
       </el-col>
       <el-col :lg="5" :md="5" :sm="12" :xs="12">
         <div class="grid-content bg-link" onclick="window.open('https://baike.baidu.com/item/%E4%B8%AD%E5%8D%8E%E4%BA%BA%E6%B0%91%E5%85%B1%E5%92%8C%E5%9B%BD%E9%A3%9F%E5%93%81%E5%AE%89%E5%85%A8%E6%B3%95/6275500?fr=aladdin&fromid=314491&fromtitle=%E9%A3%9F%E5%93%81%E5%AE%89%E5%85%A8%E6%B3%95')"></div>
@@ -31,6 +31,12 @@
       <el-col :lg="5" :md="5" :sm="12" :xs="12">
         <div class="grid-content bg-link-3" onclick="window.open('http://www.360doc.com/content/13/0629/22/10327450_296440232.shtml')"></div>
       </el-col>
+      <el-col :lg="5" :md="5" :sm="12" :xs="12">
+        <div class="grid-content bg-r" v-on:click="choose(4)"></div>
+      </el-col>
+      <el-col :lg="4" :md="4" :sm="12" :xs="12">
+        <div class="grid-content bg-l" v-on:click="choose(5)"></div>
+      </el-col>
     </el-row>
     <div class="footer">海门市市场监督管理局监制</div>
   </div>
@@ -50,7 +56,7 @@ export default {
   },
   methods: {
     choose (type) {
-      if (type === 4) {
+      if (type === 6) {
         this.$router.push('/videolist')
       } else {
         this.$router.push('/test/' + type)
@@ -164,6 +170,12 @@ a {
 }
 .bg-scqy {
   background-image: url(../assets/scqy.png); 
+}
+.bg-r {
+  background-image: url(../assets/restaurant.png); 
+}
+.bg-l {
+  background-image: url(../assets/circulation.png); 
 }
 .bg-link-2 {
   background-image: url(../assets/link2.png); 

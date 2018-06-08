@@ -4,27 +4,37 @@
       <button v-on:click="getStudyLength" class="fr cstime" style="margin-top: 20px"></button>
     <h1>海门市食安协会食品安全知识考试系统（教育系统版）</h1>
     <el-row :gutter="20" class="test-style">
-      <el-col :lg="4" :md="4" :offset="2" >
+      <el-col :lg="3" :md="3" :offset="2" >
         <div class="grid-content bg-exam-c" v-on:click="choose(0,0)"></div>
         <p>食安考试</p>
         <h5>(普通版)</h5>
       </el-col>
-      <el-col :lg="4" :md="4">
+      <el-col :lg="3" :md="3">
         <div class="grid-content bg-exam-e" v-on:click="choose(0,1)"></div>
         <p>食安考试</p>
         <h5>(教育考试版)</h5>
       </el-col>
-      <el-col :lg="4" :md="4">
+      <el-col :lg="3" :md="3">
         <div class="grid-content bg-exam-m" v-on:click="choose(0,2)"></div>
         <p>食安考试</p>
         <h5>(管理员考试版)</h5>
       </el-col>
-      <el-col :lg="4" :md="4">
+      <el-col :lg="3" :md="3">
         <div class="grid-content bg-exam-p" v-on:click="choose(0,3)"></div>
         <p>食安考试</p>
         <h5>(生产企业考试)</h5>
       </el-col>
-      <el-col :lg="4" :md="4">
+      <el-col :lg="3" :md="3">
+        <div class="grid-content bg-exam-r" v-on:click="choose(0,4)"></div>
+        <p>食安考试</p>
+        <h5>(餐饮企业考试版)</h5>
+      </el-col>
+      <el-col :lg="3" :md="3">
+        <div class="grid-content bg-exam-l" v-on:click="choose(0,5)"></div>
+        <p>食安考试</p>
+        <h5>(流通企业考试版)</h5>
+      </el-col>
+      <el-col :lg="3" :md="3">
         <div class="grid-content bg-study" v-on:click="choose(1)"></div>
         <p>食安学习</p>
       </el-col>
@@ -164,7 +174,12 @@ h1 {
 .bg-exam-e {
   background-image: url(../assets/exam-e-link.png); 
 }
-
+.bg-exam-r {
+  background-image: url(../assets/exam-r-link.png); 
+}
+.bg-exam-l {
+  background-image: url(../assets/exam-l-link.png); 
+}
 .admin-option {
   position: absolute;
   top: 10px;
@@ -181,7 +196,7 @@ h1 {
 .el-row {
   margin-top: 10%;
   margin-bottom: 20px;
-  padding: 0 20%;
+  padding: 0 10%;
 }
 
 .el-col {

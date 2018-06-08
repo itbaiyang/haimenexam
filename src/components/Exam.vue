@@ -16,10 +16,10 @@
           <span>{{ examItem.content }}</span>
         </div>
         <div class="exam-answer" v-if="examItem.quesType != 2">
-          <el-radio class="radio" v-model="radio" label="A">{{ examItem.optionA }}</el-radio></br>
-          <el-radio class="radio" v-model="radio" label="B">{{ examItem.optionB }}</el-radio></br>
-          <el-radio v-if="examItem.quesType == 0" class="radio" v-model="radio" label="C">{{ examItem.optionC }}</el-radio></br>
-          <el-radio v-if="examItem.quesType == 0" class="radio" v-model="radio" label="D">{{ examItem.optionD }}</el-radio></br>
+          <el-radio class="radio" v-model="radio" label="A">{{ examItem.optionA }}</el-radio><br/>
+          <el-radio class="radio" v-model="radio" label="B">{{ examItem.optionB }}</el-radio><br/>
+          <el-radio v-if="examItem.quesType == 0" class="radio" v-model="radio" label="C">{{ examItem.optionC }}</el-radio><br/>
+          <el-radio v-if="examItem.quesType == 0" class="radio" v-model="radio" label="D">{{ examItem.optionD }}</el-radio><br/>
         </div>
         <div class="exam-answer" v-if="examItem.quesType == 2">
           <el-checkbox-group v-model="checkList">
@@ -103,8 +103,12 @@ export default {
       this.getExamList(1, 100)
     } else if (+this.examType === 2) {
       this.getExamManagerList(1, 100)
-    } else {
+    } else if (+this.examType === 3) {
       this.getExamProduceList()
+    } else if (+this.examType === 4) {
+      this.getExamRestaurantList()
+    } else if (+this.examType === 5) {
+      this.getExamCirculationList()
     }
     var now = new Date()
     this.startTime = this.formatDate(now, 'yyyy-MM-dd hh:mm')
@@ -180,6 +184,32 @@ export default {
       }).then(function (resp) {
       })
     },
+    getExamCirculationList (pageNo, pageSize, quesType, examPoint) {
+      const self = this
+      const mParams = {
+      }
+      this.$ajax.get('exam/quesListByRandForProduce', {params: mParams}).then(function (resp) {
+        if (resp.data.respCode === '1000000') {
+          self.page = resp.data.queLst
+          self.length1 = self.page.length
+          self.getExamItem(0)
+        }
+      }).then(function (resp) {
+      })
+    },
+    getExamRestaurantList (pageNo, pageSize, quesType, examPoint) {
+      const self = this
+      const mParams = {
+      }
+      this.$ajax.get('exam/quesListByRandForProduce', {params: mParams}).then(function (resp) {
+        if (resp.data.respCode === '1000000') {
+          self.page = resp.data.queLst
+          self.length1 = self.page.length
+          self.getExamItem(0)
+        }
+      }).then(function (resp) {
+      })
+    },
     getExamItem (num) {
       let self = this
       if (this.first === true) {
@@ -199,6 +229,10 @@ export default {
       this.result[this.count] = this.radio
       if (this.radio.replace(/[,]/g, '') === this.examItem.rightAnswer) {
         this.score[this.count] = 1
+      } else if (this.radio.replace(/[,]/g, '') !== null &&
+          this.radio.replace(/[,]/g, '') !== '' &&
+          this.examItem.rightAnswer.indexOf(this.radio.replace(/[,]/g, '')) !== -1) {
+        this.score[this.count] = 0.5
       } else {
         this.score[this.count] = 0
       }
@@ -222,6 +256,10 @@ export default {
       this.result[this.count] = this.radio
       if (this.radio.replace(/[,]/g, '') === this.examItem.rightAnswer) {
         this.score[this.count] = 1
+      } else if (this.radio.replace(/[,]/g, '') !== null &&
+          this.radio.replace(/[,]/g, '') !== '' &&
+          this.examItem.rightAnswer.indexOf(this.radio.replace(/[,]/g, '')) !== -1) {
+        this.score[this.count] = 0.5
       } else {
         this.score[this.count] = 0
       }

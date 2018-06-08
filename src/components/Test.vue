@@ -114,6 +114,10 @@ export default {
   mounted () {
     if (+this.type === 3) {
       this.getProduceList()
+    } else if (+this.type === 4) {
+      this.getExamRestaurantList()
+    } else if (+this.type === 5) {
+      this.getExamCirculationList()
     } else {
       this.getExamList(1, 100, this.type)
     }
@@ -136,6 +140,42 @@ export default {
       })
     },
     getProduceList (pageNo, pageSize, quesType, examPoint) {
+      const self = this
+      const mParams = {
+        // 'pageNo': pageNo,
+        // 'pageSize': pageSize,
+        // 'quesType': quesType,
+        // 'examPoint': examPoint
+      }
+      this.$ajax.get('exam/quesListForProduce', {params: mParams}).then(function (resp) {
+        if (resp.data.respCode === '1000000') {
+          self.page.rows = resp.data.queLst
+          self.page.totalCount = resp.data.totalsize
+          console.log(self.page)
+          self.getExamItem(0)
+        }
+      }).then(function (resp) {
+      })
+    },
+    getExamRestaurantList (pageNo, pageSize, quesType, examPoint) {
+      const self = this
+      const mParams = {
+        // 'pageNo': pageNo,
+        // 'pageSize': pageSize,
+        // 'quesType': quesType,
+        // 'examPoint': examPoint
+      }
+      this.$ajax.get('exam/quesListForProduce', {params: mParams}).then(function (resp) {
+        if (resp.data.respCode === '1000000') {
+          self.page.rows = resp.data.queLst
+          self.page.totalCount = resp.data.totalsize
+          console.log(self.page)
+          self.getExamItem(0)
+        }
+      }).then(function (resp) {
+      })
+    },
+    getExamCirculationList (pageNo, pageSize, quesType, examPoint) {
       const self = this
       const mParams = {
         // 'pageNo': pageNo,
