@@ -361,7 +361,8 @@ export default {
 }
 .exam-content {
   margin: 10px 40px;
-  height: 300px;
+  min-height: 300px;
+  padding-bottom: 10px;
   border-bottom: 1px solid #e0e0e0;
 }
 .exam-title{

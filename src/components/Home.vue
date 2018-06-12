@@ -5,7 +5,7 @@
     <img src="../assets/home.png"><router-link to="/choose">返回</router-link>
     <button v-on:click="getStudyLength" class="fr cstime"></button>
     </p>
-    <h1>海门市食安协会食品安全知识考试系统（教育系统版）</h1>
+    <h1>海门市食安协会食品安全知识考试系统</h1>
     <el-row :gutter="20">
       <el-col :lg="5" :md="5" :sm="12" :xs="12">
         <div class="grid-content bg-video" v-on:click="choose(6)"></div>
