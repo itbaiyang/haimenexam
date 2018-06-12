@@ -187,8 +187,9 @@ export default {
     getExamCirculationList (pageNo, pageSize, quesType, examPoint) {
       const self = this
       const mParams = {
+        'type': 2
       }
-      this.$ajax.get('exam/quesListByRandForProduce', {params: mParams}).then(function (resp) {
+      this.$ajax.get('exam/paperByType', {params: mParams}).then(function (resp) {
         if (resp.data.respCode === '1000000') {
           self.page = resp.data.queLst
           self.length1 = self.page.length
@@ -200,8 +201,9 @@ export default {
     getExamRestaurantList (pageNo, pageSize, quesType, examPoint) {
       const self = this
       const mParams = {
+        'type': 1
       }
-      this.$ajax.get('exam/quesListByRandForProduce', {params: mParams}).then(function (resp) {
+      this.$ajax.get('exam/paperByType', {params: mParams}).then(function (resp) {
         if (resp.data.respCode === '1000000') {
           self.page = resp.data.queLst
           self.length1 = self.page.length

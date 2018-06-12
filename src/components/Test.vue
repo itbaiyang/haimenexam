@@ -160,12 +160,9 @@ export default {
     getExamRestaurantList (pageNo, pageSize, quesType, examPoint) {
       const self = this
       const mParams = {
-        // 'pageNo': pageNo,
-        // 'pageSize': pageSize,
-        // 'quesType': quesType,
-        // 'examPoint': examPoint
+        'type': 1
       }
-      this.$ajax.get('exam/quesListForProduce', {params: mParams}).then(function (resp) {
+      this.$ajax.get('exam/quesListByType', {params: mParams}).then(function (resp) {
         if (resp.data.respCode === '1000000') {
           self.page.rows = resp.data.queLst
           self.page.totalCount = resp.data.totalsize
@@ -178,12 +175,9 @@ export default {
     getExamCirculationList (pageNo, pageSize, quesType, examPoint) {
       const self = this
       const mParams = {
-        // 'pageNo': pageNo,
-        // 'pageSize': pageSize,
-        // 'quesType': quesType,
-        // 'examPoint': examPoint
+        'type': 2
       }
-      this.$ajax.get('exam/quesListForProduce', {params: mParams}).then(function (resp) {
+      this.$ajax.get('exam/quesListByType', {params: mParams}).then(function (resp) {
         if (resp.data.respCode === '1000000') {
           self.page.rows = resp.data.queLst
           self.page.totalCount = resp.data.totalsize
