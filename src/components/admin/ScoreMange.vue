@@ -73,6 +73,15 @@ export default {
         }, {
           value: '2',
           label: '管理员考试'
+        }, {
+          value: '3',
+          label: '生产企业'
+        }, {
+          value: '4',
+          label: '餐饮企业'
+        }, {
+          value: '5',
+          label: '流通企业'
         }
       ],
       value: ''

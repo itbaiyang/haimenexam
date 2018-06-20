@@ -25,11 +25,11 @@
               <input type="radio" id="radio2" value="B" v-model="radio" :disabled="radio != null">
               <label for="radio2">{{ examItem.optionB }}</label>
             </P>
-            <P v-if="type == 0" v-bind:class="{ 'answer-right': isRight == 'C', 'answer-wrong': isWrong == 'C' }">
+            <P v-if="examItem.quesType == 0" v-bind:class="{ 'answer-right': isRight == 'C', 'answer-wrong': isWrong == 'C' }">
               <input type="radio" id="radio3" value="C" v-model="radio" :disabled="radio != null">
               <label for="radio3">{{ examItem.optionC }}</label>
             </P>
-            <P v-if="type == 0"  v-bind:class="{ 'answer-right': isRight == 'D', 'answer-wrong': isWrong == 'D' }">
+            <P v-if="examItem.quesType == 0"  v-bind:class="{ 'answer-right': isRight == 'D', 'answer-wrong': isWrong == 'D' }">
               <input type="radio" id="radio4" value="D" v-model="radio" :disabled="radio != null">
               <label for="radio4">{{ examItem.optionD }}</label>
             </P>
